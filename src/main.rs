@@ -12,6 +12,7 @@ use rocket::request::{Form};
 
 #[derive(FromForm)]
 struct ProofResponse {
+    prover_id: String,
     ts: u128,
     seed: String,
     // TODO proof
@@ -58,16 +59,23 @@ fn seed() -> io::Result<String> {
 
 #[post("/proof", data = "<proof>")]
 fn proof(proof: Form<ProofResponse>) -> Status {
-    // Get timestamp
+    // Get old timestamp
     let ts =  format!("{}", proof.ts);
 
-    // Get mac code
+    // Get replication time
+    let repl_time = {
+        // Get current timestamp
+        let start = SystemTime::now();
+        let timestamp = start.duration_since(UNIX_EPOCH).expect("Time went backwards");
+        let completion_time = timestamp.as_millis();
+        completion_time - proof.ts
+    };
+
+    // Verify authenticity of seed
     let ch = &proof.seed.clone();
     let mac = hex::decode(ch).unwrap();
     let mut hasher = Blake2b::new_varkey(b"my key").unwrap();
     hasher.input(&ts.as_bytes());
-
-    // verifies the code
     let verification = hasher.verify(&mac);
 
     // TODO verify the proof
