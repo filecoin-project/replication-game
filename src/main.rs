@@ -84,21 +84,39 @@ fn proof(proof: Form<ProofResponse>) -> Status {
     match verification {
         Err(_) => Status::NotAcceptable,
         Ok(_) => {
-            // let prover_id = proof.prover_id.clone();
-            // // upsert_repl_time(prover_id, repl_time).unwrap();
+            let prover_id = proof.prover_id.clone();
+            upsert_repl_time(prover_id, repl_time).unwrap();
             Status::Ok
         },
     }
 }
 
+#[get("/leaderboard")]
+fn leaderboard() -> Res<String> {
+    let conn = Connection::open("leaderboard.db")?;
+    let mut stmt = conn.prepare("SELECT prover, repl_time FROM leaderboard")?;
+    let mut rows = stmt.query(NO_PARAMS)?;
+
+    let mut names : Vec<String> = Vec::new();
+    while let Some(result_row) = rows.next() {
+        let row = result_row?;
+        let prover : String = row.get(0);
+        let repl_time : u32 = row.get(1);
+        names.push(format!("{}: {}s", prover, repl_time as f32 / 60000f32));
+    }
+
+    Ok(format!("{:?}", names))
+}
+
 fn upsert_repl_time (prover_id: String, repl_time: u128) -> Res<()> {
     let conn = Connection::open("leaderboard.db")?;
+    let time = format!("{}", repl_time);
     conn.execute(
-        "INSERT INTO leaderboard(prover) VALUES('?1')
+        "INSERT INTO leaderboard(prover, repl_time) VALUES(?1, ?2)
         ON CONFLICT(prover) DO UPDATE SET
             repl_time=?2
         WHERE excluded.repl_time > leaderboard.repl_time;",
-        &[&prover_id, &format!("{}", repl_time)])?;
+        &[&prover_id, &time])?;
 
     Ok(())
 }
@@ -114,7 +132,7 @@ fn main() -> Res<()> {
     )?;
 
     rocket::ignite()
-        .mount("/", routes![index, seed, proof])
+        .mount("/", routes![index, seed, proof, leaderboard])
         .launch();
 
     Ok(())
