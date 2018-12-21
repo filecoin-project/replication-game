@@ -94,7 +94,7 @@ fn proof(proof: Form<ProofResponse>) -> Status {
 #[get("/leaderboard")]
 fn leaderboard() -> Res<String> {
     let conn = Connection::open("leaderboard.db")?;
-    let mut stmt = conn.prepare("SELECT prover, repl_time FROM leaderboard")?;
+    let mut stmt = conn.prepare("SELECT prover, repl_time FROM leaderboard ORDER BY repl_time")?;
     let mut rows = stmt.query(NO_PARAMS)?;
 
     let mut names : Vec<String> = Vec::new();
@@ -105,7 +105,7 @@ fn leaderboard() -> Res<String> {
         names.push(format!("{}: {}s", prover, repl_time as f32 / 60000f32));
     }
 
-    Ok(format!("{:?}", names))
+    Ok(names.join("\n"))
 }
 
 fn upsert_repl_time (prover_id: String, repl_time: u128) -> Res<()> {
