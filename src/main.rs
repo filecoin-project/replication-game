@@ -2,6 +2,7 @@
 #![feature(duration_as_u128)]
 
 #[macro_use] extern crate rocket;
+
 use blake2::Blake2b;
 use blake2::crypto_mac::Mac;
 use hex;
@@ -9,6 +10,7 @@ use rocket::http::Status;
 use std::io;
 use std::time::{SystemTime, UNIX_EPOCH};
 use rocket::request::{Form};
+use rusqlite::{Connection, NO_PARAMS, Result as Res};
 
 #[derive(FromForm)]
 struct ProofResponse {
@@ -17,7 +19,6 @@ struct ProofResponse {
     seed: String,
     // TODO proof
 }
-
 
 #[get("/")]
 fn index() -> &'static str {
@@ -82,10 +83,39 @@ fn proof(proof: Form<ProofResponse>) -> Status {
 
     match verification {
         Err(_) => Status::NotAcceptable,
-        Ok(_) => Status::Ok,
+        Ok(_) => {
+            // let prover_id = proof.prover_id.clone();
+            // // upsert_repl_time(prover_id, repl_time).unwrap();
+            Status::Ok
+        },
     }
 }
 
-fn main() {
-    rocket::ignite().mount("/", routes![index, seed, proof]).launch();
+fn upsert_repl_time (prover_id: String, repl_time: u128) -> Res<()> {
+    let conn = Connection::open("leaderboard.db")?;
+    conn.execute(
+        "INSERT INTO leaderboard(prover) VALUES('?1')
+        ON CONFLICT(prover) DO UPDATE SET
+            repl_time=?2
+        WHERE excluded.repl_time > leaderboard.repl_time;",
+        &[&prover_id, &format!("{}", repl_time)])?;
+
+    Ok(())
+}
+
+fn main() -> Res<()> {
+    let conn = Connection::open("leaderboard.db")?;
+    conn.execute(
+        "create table if not exists leaderboard (
+            prover text primary key,
+            repl_time integer not null
+         )",
+        NO_PARAMS,
+    )?;
+
+    rocket::ignite()
+        .mount("/", routes![index, seed, proof])
+        .launch();
+
+    Ok(())
 }
