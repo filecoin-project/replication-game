@@ -115,7 +115,7 @@ fn upsert_repl_time (prover_id: String, repl_time: u128) -> Res<()> {
         "INSERT INTO leaderboard(prover, repl_time) VALUES(?1, ?2)
         ON CONFLICT(prover) DO UPDATE SET
             repl_time=?2
-        WHERE excluded.repl_time > leaderboard.repl_time;",
+        WHERE excluded.repl_time < leaderboard.repl_time;",
         &[&prover_id, &time])?;
 
     Ok(())
