@@ -1,39 +1,30 @@
-extern crate pairing;
-extern crate rand;
-extern crate sapling_crypto;
-#[macro_use]
-extern crate clap;
-#[macro_use]
-extern crate slog;
-
-extern crate filecoin_proofs;
-extern crate storage_proofs;
-
-use clap::{App, Arg};
+use clap::{value_t, App, Arg};
 use pairing::bls12_381::Bls12;
 use rand::{thread_rng, Rng};
-use std::time::{Duration, Instant};
 
 use storage_proofs::drgporep::*;
 use storage_proofs::drgraph::*;
 use storage_proofs::example_helper::prettyb;
 use storage_proofs::fr32::fr_into_bytes;
-use storage_proofs::hasher::{Blake2sHasher, Hasher, PedersenHasher, Sha256Hasher};
+use storage_proofs::hasher::{Hasher, PedersenHasher};
 use storage_proofs::porep::PoRep;
 use storage_proofs::proof::ProofScheme;
 
-use filecoin_proofs::FCP_LOG;
-
-fn do_the_work<H: Hasher>(data_size: usize, m: usize, sloth_iter: usize, challenge_count: usize) {
+fn do_the_work<H: Hasher>(
+    data_size: usize,
+    m: usize,
+    sloth_iter: usize,
+    challenge_count: usize,
+) -> String {
     let mut rng = thread_rng();
     let challenges = vec![2; challenge_count];
 
-    info!(FCP_LOG, "data_size:  {}", prettyb(data_size); "target" => "stats");
-    info!(FCP_LOG, "challenge_count: {}", challenge_count; "target" => "stats");
-    info!(FCP_LOG, "m: {}", m; "target" => "stats");
-    info!(FCP_LOG, "sloth: {}", sloth_iter; "target" => "stats");
+    println!("data_size:  {}", prettyb(data_size));
+    println!("challenge_count: {}", challenge_count);
+    println!("m: {}", m);
+    println!("sloth: {}", sloth_iter);
 
-    info!(FCP_LOG, "generating fake data");
+    println!("generating fake data");
 
     let nodes = data_size / 32;
 
@@ -52,14 +43,10 @@ fn do_the_work<H: Hasher>(data_size: usize, m: usize, sloth_iter: usize, challen
         sloth_iter,
     };
 
-    info!(FCP_LOG, "running setup");
+    println!("running setup");
     let pp = DrgPoRep::<H, BucketGraph<H>>::setup(&sp).unwrap();
 
-    let start = Instant::now();
-    let mut param_duration = Duration::new(0, 0);
-
-    info!(FCP_LOG, "running replicate");
-
+    println!("running replicate");
     let (tau, aux) =
         DrgPoRep::<H, _>::replicate(&pp, &replica_id, data.as_mut_slice(), None).unwrap();
 
@@ -71,49 +58,13 @@ fn do_the_work<H: Hasher>(data_size: usize, m: usize, sloth_iter: usize, challen
 
     let priv_inputs = PrivateInputs::<H> { aux: &aux };
 
-    param_duration += start.elapsed();
-    let samples: u32 = 30;
+    println!("sampling proving & verifying");
 
-    let mut total_proving = Duration::new(0, 0);
-    let mut total_verifying = Duration::new(0, 0);
+    let proof = DrgPoRep::<H, _>::prove(&pp, &pub_inputs, &priv_inputs).expect("failed to prove");
 
-    let mut proofs = Vec::with_capacity(samples as usize);
-    info!(
-        FCP_LOG,
-        "sampling proving & verifying (samples: {})", samples
-    );
-    for _ in 0..samples {
-        let start = Instant::now();
-        let proof =
-            DrgPoRep::<H, _>::prove(&pp, &pub_inputs, &priv_inputs).expect("failed to prove");
-        total_proving += start.elapsed();
+    DrgPoRep::<H, _>::verify(&pp, &pub_inputs, &proof).expect("failed to verify");
 
-        let start = Instant::now();
-        DrgPoRep::<H, _>::verify(&pp, &pub_inputs, &proof).expect("failed to verify");
-        total_verifying += start.elapsed();
-        proofs.push(proof);
-    }
-
-    // -- print statistics
-
-    let serialized_proofs = proofs.iter().fold(Vec::new(), |mut acc, p| {
-        acc.extend(p.serialize());
-        acc
-    });
-    let avg_proof_size = serialized_proofs.len() / samples as usize;
-
-    let proving_avg = total_proving / samples;
-    let proving_avg =
-        f64::from(proving_avg.subsec_nanos()) / 1_000_000_000f64 + (proving_avg.as_secs() as f64);
-
-    let verifying_avg = total_verifying / samples;
-    let verifying_avg = f64::from(verifying_avg.subsec_nanos()) / 1_000_000_000f64
-        + (verifying_avg.as_secs() as f64);
-
-    info!(FCP_LOG, "avg_proving_time: {:?} seconds", proving_avg; "target" => "stats");
-    info!(FCP_LOG, "avg_verifying_time: {:?} seconds", verifying_avg; "target" => "stats");
-    info!(FCP_LOG, "replication_time: {:?}", param_duration; "target" => "stats");
-    info!(FCP_LOG, "avg_proof_size: {}", prettyb(avg_proof_size); "target" => "stats");
+    serde_json::to_string(&proof).expect("failed to serialize proof")
 }
 
 fn main() {
@@ -147,31 +98,14 @@ fn main() {
                 .default_value("1")
                 .takes_value(true),
         )
-        .arg(
-            Arg::with_name("hasher")
-                .long("hasher")
-                .help("Which hasher should be used.Available: \"pedersen\", \"sha256\", \"blake2s\" (default \"pedersen\")")
-                .default_value("pedersen")
-                .takes_value(true),
-        )
         .get_matches();
 
     let data_size = value_t!(matches, "size", usize).unwrap() * 1024;
     let m = value_t!(matches, "m", usize).unwrap();
     let sloth_iter = value_t!(matches, "sloth", usize).unwrap();
     let challenge_count = value_t!(matches, "challenges", usize).unwrap();
-    let hasher = value_t!(matches, "hasher", String).unwrap();
-    info!(FCP_LOG, "hasher: {}", hasher; "target" => "config");
-    match hasher.as_ref() {
-        "pedersen" => {
-            do_the_work::<PedersenHasher>(data_size, m, sloth_iter, challenge_count);
-        }
-        "sha256" => {
-            do_the_work::<Sha256Hasher>(data_size, m, sloth_iter, challenge_count);
-        }
-        "blake2s" => {
-            do_the_work::<Blake2sHasher>(data_size, m, sloth_iter, challenge_count);
-        }
-        _ => panic!(format!("invalid hasher: {}", hasher)),
-    }
+
+    let res = do_the_work::<PedersenHasher>(data_size, m, sloth_iter, challenge_count);
+
+    println!("\n\n{}", res);
 }
