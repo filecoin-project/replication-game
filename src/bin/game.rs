@@ -1,37 +1,43 @@
-use clap::{value_t, App, Arg};
+use clap::{value_t, App, AppSettings, Arg, SubCommand};
 use pairing::bls12_381::Bls12;
 use rand::{thread_rng, Rng};
+use serde::Serialize;
 
 use storage_proofs::drgporep::*;
 use storage_proofs::drgraph::*;
-use storage_proofs::example_helper::prettyb;
 use storage_proofs::fr32::fr_into_bytes;
-use storage_proofs::hasher::{Hasher, PedersenHasher};
+use storage_proofs::hasher::{Domain, Hasher, PedersenHasher};
 use storage_proofs::porep::PoRep;
 use storage_proofs::proof::ProofScheme;
 
-fn do_the_work<H: Hasher>(
-    data_size: usize,
-    m: usize,
-    sloth_iter: usize,
-    challenge_count: usize,
-) -> String {
-    let mut rng = thread_rng();
-    let challenges = vec![2; challenge_count];
+fn zigzag_work<H: Hasher>(params: Params) -> String {
+    // TODO: implement me
+    unimplemented!("zigzag");
+}
 
-    println!("data_size:  {}", prettyb(data_size));
-    println!("challenge_count: {}", challenge_count);
-    println!("m: {}", m);
-    println!("sloth: {}", sloth_iter);
+fn porep_work<H: Hasher>(params: Params) -> String {
+    let replica_id_raw = &params.replica_id;
+    let data_size = params.size;
+    let m = params.degree;
+    let sloth_iter = params.vde;
+    let challenge_count = params.challenge_count;
+
+    let mut rng = thread_rng();
 
     println!("generating fake data");
 
     let nodes = data_size / 32;
 
-    let replica_id: H::Domain = rng.gen();
+    let mut replica_id_bytes = vec![0u8; 32];
+    replica_id_bytes[0..replica_id_raw.len()].copy_from_slice(replica_id_raw);
+    let replica_id = H::Domain::try_from_bytes(&replica_id_bytes).expect("invalid replica id");
+
     let mut data: Vec<u8> = (0..nodes)
         .flat_map(|_| fr_into_bytes::<Bls12>(&rng.gen()))
         .collect();
+
+    // TODO: proper challenge generation
+    let challenges = vec![2; challenge_count];
 
     let sp = SetupParams {
         drg: DrgParams {
@@ -64,11 +70,25 @@ fn do_the_work<H: Hasher>(
 
     DrgPoRep::<H, _>::verify(&pp, &pub_inputs, &proof).expect("failed to verify");
 
-    serde_json::to_string(&proof).expect("failed to serialize proof")
+    format!(
+        "{{\"params\": {}, \"proof\": {} }}",
+        serde_json::to_string(&params).expect("failed to serialize params"),
+        serde_json::to_string(&proof).expect("failed to serialize proof"),
+    )
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct Params {
+    size: usize,
+    replica_id: Vec<u8>,
+    challenge_count: usize,
+    vde: usize,
+    degree: usize,
+    expansion_degree: usize,
 }
 
 fn main() {
-    let matches = App::new(stringify!("DrgPoRep Vanilla Bench"))
+    let matches = App::new(stringify!("Replication Game CLI"))
         .version("1.0")
         .arg(
             Arg::with_name("size")
@@ -78,34 +98,55 @@ fn main() {
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("m")
-                .help("The size of m")
-                .long("m")
+            Arg::with_name("degree")
+                .help("The degree")
+                .long("degree")
                 .default_value("6")
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("sloth")
-                .help("The number of sloth iterations, defaults to 1")
-                .long("sloth")
+            Arg::with_name("vde")
+                .help("The VDE difficulty")
+                .long("vde")
                 .default_value("1")
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("challenges")
-                .long("challenges")
-                .help("How many challenges to execute, defaults to 1")
-                .default_value("1")
+            Arg::with_name("expansion-degree")
+                .help("The expansion degree for Zigzag")
+                .long("expansion-degree")
+                .default_value("6")
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("replica-id")
+                .long("replica-id")
+                .help("The replica ID to use")
+                .required(true)
+                .takes_value(true),
+        )
+        .setting(AppSettings::SubcommandRequired)
+        .subcommand(SubCommand::with_name("drgporep"))
+        .subcommand(SubCommand::with_name("zigzag"))
         .get_matches();
 
-    let data_size = value_t!(matches, "size", usize).unwrap() * 1024;
-    let m = value_t!(matches, "m", usize).unwrap();
-    let sloth_iter = value_t!(matches, "sloth", usize).unwrap();
-    let challenge_count = value_t!(matches, "challenges", usize).unwrap();
+    let params = Params {
+        size: value_t!(matches, "size", usize).unwrap() * 1024,
+        degree: value_t!(matches, "degree", usize).unwrap(),
+        vde: value_t!(matches, "vde", usize).unwrap(),
+        replica_id: value_t!(matches, "replica-id", String)
+            .unwrap()
+            .as_bytes()
+            .to_vec(),
+        challenge_count: 2, // TODO: use 200
+        expansion_degree: value_t!(matches, "expansion-degree", usize).unwrap(),
+    };
 
-    let res = do_the_work::<PedersenHasher>(data_size, m, sloth_iter, challenge_count);
+    let res = match matches.subcommand() {
+        ("drgporep", _) => porep_work::<PedersenHasher>(params),
+        ("zigzag", _) => zigzag_work::<PedersenHasher>(params),
+        (sub, _) => panic!("invalid subcommand: {}", sub),
+    };
 
     println!("\n\n{}", res);
 }
