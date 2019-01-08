@@ -3,16 +3,88 @@ use pairing::bls12_381::Bls12;
 use rand::{thread_rng, Rng};
 use serde::Serialize;
 
-use storage_proofs::drgporep::*;
+use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
 use storage_proofs::fr32::fr_into_bytes;
 use storage_proofs::hasher::{Domain, Hasher, PedersenHasher};
+use storage_proofs::layered_drgporep;
 use storage_proofs::porep::PoRep;
 use storage_proofs::proof::ProofScheme;
+use storage_proofs::zigzag_drgporep::*;
 
-fn zigzag_work<H: Hasher>(params: Params) -> String {
-    // TODO: implement me
-    unimplemented!("zigzag");
+fn zigzag_work<H: Hasher + 'static>(params: Params) -> String {
+    let data_size = params.size;
+    let m = params.degree;
+    let expansion_degree = params.expansion_degree;
+    let sloth_iter = params.vde;
+    let challenge_count = params.challenge_count;
+
+    // TODO: should these be configurable?
+    let layers = 10;
+    let partitions = 1;
+
+    let mut rng = thread_rng();
+
+    println!("generating fake data");
+
+    let nodes = data_size / 32;
+    let mut data: Vec<u8> = (0..nodes)
+        .flat_map(|_| fr_into_bytes::<Bls12>(&rng.gen()))
+        .collect();
+
+    let replica_id: H::Domain = rng.gen();
+
+    let sp = layered_drgporep::SetupParams {
+        drg_porep_setup_params: drgporep::SetupParams {
+            drg: drgporep::DrgParams {
+                nodes,
+                degree: m,
+                expansion_degree,
+                seed: new_seed(),
+            },
+            sloth_iter,
+        },
+        layers,
+        challenge_count,
+    };
+
+    println!("running setup");
+    let pp = ZigZagDrgPoRep::<H>::setup(&sp).unwrap();
+
+    println!("running replicate");
+
+    let (tau, aux) = ZigZagDrgPoRep::<H>::replicate(&pp, &replica_id, &mut data, None).unwrap();
+
+    let pub_inputs = layered_drgporep::PublicInputs::<H::Domain> {
+        replica_id,
+        challenge_count,
+        tau: Some(tau.simplify().into()),
+        comm_r_star: tau.comm_r_star,
+        k: Some(0),
+    };
+
+    let priv_inputs = layered_drgporep::PrivateInputs {
+        replica: &data,
+        aux,
+        tau: tau.layer_taus,
+    };
+
+    println!("generating one proof");
+
+    let proof =
+        ZigZagDrgPoRep::<H>::prove_all_partitions(&pp, &pub_inputs, &priv_inputs, partitions)
+            .expect("failed to prove");
+
+    let verified = ZigZagDrgPoRep::<H>::verify_all_partitions(&pp, &pub_inputs, &proof)
+        .expect("failed to verify");
+
+    assert!(verified, "verification failed");
+
+    format!(
+        "{{\"params\": {}, \"proof\": {} }}",
+        serde_json::to_string(&params).expect("failed to serialize params"),
+        serde_json::to_string(&proof).expect("failed to serialize proof"),
+    )
 }
 
 fn porep_work<H: Hasher>(params: Params) -> String {
