@@ -5,10 +5,11 @@ use blake2::Blake2b;
 use rocket::get;
 use rocket_contrib::json::Json;
 
+use crate::error::ApiResult;
 use crate::models::seed::Seed;
 
 #[get("/seed")]
-pub fn seed() -> Json<Seed> {
+pub fn seed() -> ApiResult<Json<Seed>> {
     // Get current timestamp
     let ts = {
         let start = SystemTime::now();
@@ -19,13 +20,13 @@ pub fn seed() -> Json<Seed> {
     };
 
     // take the mac of the timestamp
-    let mut hasher = Blake2b::new_varkey(b"my key").unwrap();
+    let mut hasher = Blake2b::new_varkey(b"my key")?;
     hasher.input(format!("{}", ts).as_bytes());
     let result = hasher.result();
     let code_bytes = result.code().to_vec();
 
-    Json(Seed {
+    Ok(Json(Seed {
         timestamp: ts,
         seed: hex::encode(&code_bytes),
-    })
+    }))
 }

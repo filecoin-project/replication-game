@@ -43,9 +43,9 @@ fn test_insertion() {
         // Issue a request to insert a result
         let response = client
             .post("/proof")
-            .header(ContentType::Form)
+            .header(ContentType::JSON)
             .body(format!(
-                "prover_id={}&ts={}&seed={}",
+                r#"{{ "prover_id": "{}", "ts": {}, "seed": "{}" }}"#,
                 &id, seed.timestamp, seed.seed
             ))
             .dispatch();

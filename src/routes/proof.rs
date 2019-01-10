@@ -2,16 +2,16 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use blake2::crypto_mac::Mac;
 use blake2::Blake2b;
-use rocket::http::Status;
 use rocket::post;
-use rocket::request::Form;
+use rocket_contrib::json::Json;
 
 use crate::db::DbConn;
+use crate::error::ApiResult;
 use crate::models::leaderboard::Entry;
 use crate::models::proof::ProofResponse;
 
-#[post("/proof", data = "<proof>")]
-pub fn proof(conn: DbConn, proof: Form<ProofResponse>) -> Status {
+#[post("/proof", format = "json", data = "<proof>")]
+pub fn proof(conn: DbConn, proof: Json<ProofResponse>) -> ApiResult<()> {
     // Get old timestamp
     let ts = format!("{}", proof.ts);
 
@@ -28,21 +28,14 @@ pub fn proof(conn: DbConn, proof: Form<ProofResponse>) -> Status {
 
     // Verify authenticity of seed
     let ch = &proof.seed.clone();
-    let mac = hex::decode(ch).unwrap();
-    let mut hasher = Blake2b::new_varkey(b"my key").unwrap();
+    let mac = hex::decode(ch)?;
+    let mut hasher = Blake2b::new_varkey(b"my key")?;
     hasher.input(&ts.as_bytes());
-    let verification = hasher.verify(&mac);
+    hasher.verify(&mac)?;
 
     // TODO verify the proof
 
-    match verification {
-        Err(_) => Status::NotAcceptable,
-        Ok(_) => match Entry::insert(&proof.prover_id, repl_time, &conn) {
-            Ok(_) => Status::Ok,
-            Err(err) => {
-                println!("upsert error: {:?}", err);
-                Status::InternalServerError
-            }
-        },
-    }
+    Entry::insert(&proof.prover_id, repl_time, &conn)?;
+
+    Ok(())
 }
