@@ -1,4 +1,5 @@
 use diesel::{self, prelude::*};
+use serde_derive::{Deserialize, Serialize};
 
 mod schema {
     table! {

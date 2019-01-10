@@ -1,10 +1,11 @@
+use lazy_static::lazy_static;
 use parking_lot::Mutex;
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
 use rocket::http::{ContentType, Status};
 use rocket::local::Client;
 
-use super::entry::Entry;
-use super::Seed;
+use crate::models::leaderboard::Entry;
+use crate::models::seed::Seed;
 
 // We use a lock to synchronize between tests so DB operations don't collide.
 // For now. In the future, we'll have a nice way to run each test in a DB
@@ -42,9 +43,9 @@ fn test_insertion() {
         // Issue a request to insert a result
         let response = client
             .post("/proof")
-            .header(ContentType::Form)
+            .header(ContentType::JSON)
             .body(format!(
-                "prover_id={}&ts={}&seed={}",
+                r#"{{ "prover_id": "{}", "ts": {}, "seed": "{}" }}"#,
                 &id, seed.timestamp, seed.seed
             ))
             .dispatch();
