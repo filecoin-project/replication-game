@@ -528,7 +528,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "ffi-toolkit"
 version = "0.1.0"
-source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#c11c595a790f478dedf602abd1722526562ddac0"
+source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#59af39ad12e859bd633625646f1536b4fad9b031"
 dependencies = [
  "libc 0.2.46 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -536,7 +536,7 @@ dependencies = [
 [[package]]
 name = "filecoin-proofs"
 version = "0.1.0"
-source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#c11c595a790f478dedf602abd1722526562ddac0"
+source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#59af39ad12e859bd633625646f1536b4fad9b031"
 dependencies = [
  "bellman 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bindgen 0.46.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -848,7 +848,7 @@ dependencies = [
 [[package]]
 name = "logging-toolkit"
 version = "0.1.0"
-source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#c11c595a790f478dedf602abd1722526562ddac0"
+source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#59af39ad12e859bd633625646f1536b4fad9b031"
 dependencies = [
  "slog 2.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "slog-async 2.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1522,7 +1522,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "sector-base"
 version = "0.1.0"
-source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#c11c595a790f478dedf602abd1722526562ddac0"
+source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#59af39ad12e859bd633625646f1536b4fad9b031"
 dependencies = [
  "bitvec 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "cbindgen 0.6.8 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1661,9 +1661,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "storage-proofs"
 version = "0.1.0"
-source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#c11c595a790f478dedf602abd1722526562ddac0"
+source = "git+ssh://git@github.com/filecoin-project/rust-proofs.git#59af39ad12e859bd633625646f1536b4fad9b031"
 dependencies = [
  "aes 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "base64 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bellman 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitvec 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "blake2 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1687,6 +1688,8 @@ dependencies = [
  "rand 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "rayon 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "sapling-crypto 0.0.1 (git+https://github.com/zcash-hackworks/sapling-crypto)",
+ "serde 1.0.84 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_derive 1.0.58 (registry+https://github.com/rust-lang/crates.io-index)",
  "sha2 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "slog 2.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "tempfile 3.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
