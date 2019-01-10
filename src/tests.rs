@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 use parking_lot::Mutex;
-use rand::{distributions::Alphanumeric, thread_rng, Rng};
+use rand::{thread_rng, Rng};
 use rocket::http::{ContentType, Status};
 use rocket::local::Client;
 
@@ -38,7 +38,7 @@ fn test_insertion() {
         let seed: Seed = serde_json::from_str(&body).unwrap();
 
         let mut rng = thread_rng();
-        let id: String = rng.sample_iter(&Alphanumeric).take(12).collect();
+        let id: String = rng.gen_ascii_chars().take(12).collect();
 
         // Issue a request to insert a result
         let response = client
