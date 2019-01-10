@@ -4,6 +4,10 @@ version = "0.1.0"
 authors = ["nicola <nicola@users.noreply.github.com>"]
 edition = "2018"
 
+[[bin]]
+name = "replication-game-server"
+path = "src/bin/server.rs"
+
 [dependencies]
 rocket = "0.4"
 blake2 = "0.8.0"
