@@ -16,7 +16,7 @@ pub fn seed() -> ApiResult<Json<Seed>> {
         let timestamp = start
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards");
-        timestamp.as_millis() as i32
+        timestamp.as_secs() as i32
     };
 
     // take the mac of the timestamp

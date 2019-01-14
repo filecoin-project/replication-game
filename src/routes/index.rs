@@ -12,8 +12,6 @@ pub fn index() -> &'static str {
           EXAMPLE: curl  http://localhost:8000/seed
 
       POST /proof
-          Send your `ts` (timestamp), `seed` and `proof`,
-          it verifies it and stores it, returns status 400 or 406
-          EXAMPLE: curl -X POST -d \"prover_id=myid&ts=123123&seed=rhoch83q\"  http://localhost:8000/proof
+          Send your results here. They should be sent as JSON.
     "
 }

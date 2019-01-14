@@ -1,55 +1,138 @@
+use blake2::{Blake2b, Digest};
+use byteorder::{BigEndian, ByteOrder};
 use diesel::{self, prelude::*};
 use serde_derive::{Deserialize, Serialize};
 
-mod schema {
-    table! {
-        leaderboard (prover) {
-            prover -> Text,
-            repl_time -> Integer,
-        }
-    }
-}
-
-use self::schema::leaderboard;
-use self::schema::leaderboard::dsl::leaderboard as all_leaderboard;
+use crate::models::proof;
+use crate::schema::leaderboard::dsl::leaderboard as all_leaderboard;
+use crate::schema::{leaderboard, params};
 
 #[table_name = "leaderboard"]
-#[derive(Queryable, Insertable, Debug, Clone, Deserialize, Serialize)]
+#[belongs_to(Params)]
+#[derive(Queryable, Insertable, Debug, Clone, Deserialize, Serialize, Associations)]
 pub struct Entry {
+    pub id: i32,
     pub prover: String,
     pub repl_time: i32,
+    pub params_id: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct PrintableEntry {
+    pub id: i32,
+    pub prover: String,
+    pub repl_time: i32,
+    pub params: Params,
 }
 
 impl Entry {
-    pub fn all(conn: &SqliteConnection) -> QueryResult<Vec<Entry>> {
-        all_leaderboard
+    pub fn all(conn: &SqliteConnection) -> QueryResult<Vec<PrintableEntry>> {
+        use crate::schema::leaderboard::dsl;
+
+        let rows = leaderboard::table
+            .inner_join(params::table)
             .order(leaderboard::repl_time.asc())
-            .load::<Entry>(conn)
+            .load::<(Entry, Params)>(conn)?;
+
+        Ok(rows
+            .into_iter()
+            .map(|(e, p)| PrintableEntry {
+                id: e.id,
+                prover: e.prover,
+                repl_time: e.repl_time,
+                params: p,
+            })
+            .collect())
     }
 
-    pub fn insert(prover_id: &str, repl_time: i32, conn: &SqliteConnection) -> QueryResult<()> {
-        let query = format!(
-            "INSERT INTO leaderboard(prover, repl_time) VALUES(\"{prover}\", {repl_time})
-            ON CONFLICT(prover) DO UPDATE SET
-                repl_time={repl_time}
-            WHERE excluded.repl_time < leaderboard.repl_time;",
-            prover = prover_id,
-            repl_time = repl_time
-        );
+    pub fn insert(
+        prover: &str,
+        repl_time: i32,
+        params_id: i64,
+        conn: &SqliteConnection,
+    ) -> QueryResult<()> {
+        use crate::schema::leaderboard::dsl;
 
-        diesel::sql_query(query).execute(conn)?;
+        let record = dsl::leaderboard
+            .filter(dsl::prover.eq(prover))
+            .filter(dsl::params_id.eq(params_id))
+            .first::<(i32, String, i32, i64)>(conn)
+            .optional()?;
+
+        if let Some(record) = record {
+            if repl_time < record.2 {
+                // better time
+                diesel::update(dsl::leaderboard.filter(dsl::prover.eq(prover)))
+                    .set((dsl::repl_time.eq(repl_time), dsl::params_id.eq(params_id)))
+                    .execute(conn)?;
+            }
+        } else {
+            // regular insert
+            diesel::insert_into(leaderboard::table)
+                .values((
+                    dsl::prover.eq(prover),
+                    dsl::repl_time.eq(repl_time),
+                    dsl::params_id.eq(params_id),
+                ))
+                .execute(conn)?;
+        }
+
         Ok(())
-
-        // TODO: Use once https://github.com/diesel-rs/diesel/pull/1884 is merged
-        // use self::schema::leaderboard::dsl::*;
-        // use pg::upsert::excluded;
-
-        // diesel::insert_into(leaderboard::table)
-        //     .values(&entry)
-        //     .on_conflict(prover)
-        //     .do_update()
-        //     .filter(excluded(repl_time) < (entry.repl_time))
-        //     .set(repl_time.eq(entry.repl_time))
-        //     .execute(conn)
     }
+}
+
+#[table_name = "params"]
+#[derive(Queryable, Insertable, Debug, Clone, Serialize, Deserialize)]
+pub struct Params {
+    pub id: i64,
+
+    pub typ: proof::ProofType,
+    pub size: i32,
+    pub challenge_count: i32,
+    pub vde: i32,
+    pub degree: i32,
+    pub expansion_degree: Option<i32>,
+    pub layers: Option<i32>,
+}
+
+impl Params {
+    pub fn insert(val: &proof::Params, conn: &SqliteConnection) -> QueryResult<i64> {
+        let serialized_params = serde_json::to_vec(val).expect("invalid params");
+        let hash = Blake2b::digest(&serialized_params);
+        let id = BigEndian::read_i64(&hash);
+
+        use crate::schema::params::dsl;
+
+        let params_exists = diesel::select(diesel::dsl::exists(dsl::params.filter(dsl::id.eq(id))))
+            .get_result::<bool>(conn)?;
+
+        if !params_exists {
+            diesel::insert_into(params::table)
+                .values(Params {
+                    id,
+                    typ: val.typ.clone(),
+                    size: val.size as i32,
+                    challenge_count: val.challenge_count as i32,
+                    vde: val.vde as i32,
+                    degree: val.degree as i32,
+                    expansion_degree: val.expansion_degree.map(|v| v as i32),
+                    layers: val.layers.map(|v| v as i32),
+                })
+                .execute(conn)?;
+        }
+
+        Ok(id)
+    }
+}
+
+pub fn upsert_entry_with_params(
+    res: &proof::Response,
+    repl_time: i32,
+    conn: &SqliteConnection,
+) -> QueryResult<()> {
+    let params_id = Params::insert(&res.proof_params, conn)?;
+
+    Entry::insert(&res.prover, repl_time, params_id, conn)?;
+
+    Ok(())
 }
