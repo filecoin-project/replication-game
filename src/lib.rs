@@ -1,14 +1,17 @@
-#![feature(proc_macro_hygiene, decl_macro, duration_as_u128)]
+#![feature(proc_macro_hygiene, decl_macro)]
 
 #[macro_use]
 extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
+pub mod models;
+pub mod proofs;
+
 mod db;
 mod error;
-mod models;
 mod routes;
+mod schema;
 
 #[cfg(test)]
 mod tests;
