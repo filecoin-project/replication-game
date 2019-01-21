@@ -1,2 +1,2 @@
-web: ./target/release/replication-game-server
+web: ROCKET_ADDRESS=0.0.0.0 ROCKET_PORT=$PORT ROCKET_ENV=prod ROCKET_DATABASES={leaderboard={url="$DATABASE_URL"}} ./target/release/replication-game-server
 release: ./target/release/diesel migration run

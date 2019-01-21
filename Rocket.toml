@@ -8,4 +8,3 @@ leaderboard = { url = "postgresql://fil@localhost/leaderboard_dev" }
 [production]
 address = "0.0.0.0"
 workers = 2
-port = 80
