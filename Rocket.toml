@@ -1,2 +1,4 @@
-[global.databases]
-leaderboard = { url = "leaderboard.sqlite" }
+[development]
+
+[development.databases]
+leaderboard = { url = "postgresql://fil@localhost/leaderboard_dev" }

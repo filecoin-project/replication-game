@@ -1,5 +1,5 @@
-use diesel::SqliteConnection;
+use diesel::PgConnection;
 use rocket_contrib::database;
 
 #[database("leaderboard")]
-pub struct DbConn(SqliteConnection);
+pub struct DbConn(PgConnection);
