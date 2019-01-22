@@ -28,7 +28,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let mut rng = thread_rng();
 
-    println!("generating fake data");
+    eprintln!("generating fake data");
 
     let nodes = data_size / 32;
     let mut data: Vec<u8> = (0..nodes)
@@ -50,10 +50,10 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         challenge_count,
     };
 
-    println!("running setup");
+    eprintln!("running setup");
     let pp = ZigZagDrgPoRep::<PedersenHasher>::setup(&sp).unwrap();
 
-    println!("running replicate");
+    eprintln!("running replicate");
 
     let (tau, aux) =
         ZigZagDrgPoRep::<PedersenHasher>::replicate(&pp, &replica_id, &mut data, None).unwrap();
@@ -72,7 +72,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         tau: tau.layer_taus.clone(),
     };
 
-    println!("generating one proof");
+    eprintln!("generating one proof");
 
     let pr = ZigZagDrgPoRep::<PedersenHasher>::prove_all_partitions(
         &pp,
@@ -116,7 +116,7 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
 
     let mut rng = thread_rng();
 
-    println!("generating fake data");
+    eprintln!("generating fake data");
 
     let nodes = data_size / 32;
 
@@ -138,10 +138,10 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
         sloth_iter,
     };
 
-    println!("running setup");
+    eprintln!("running setup");
     let pp = DrgPoRep::<PedersenHasher, BucketGraph<PedersenHasher>>::setup(&sp).unwrap();
 
-    println!("running replicate");
+    eprintln!("running replicate");
     let (tau, aux) =
         DrgPoRep::<PedersenHasher, _>::replicate(&pp, &replica_id, data.as_mut_slice(), None)
             .unwrap();
@@ -154,7 +154,7 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
 
     let priv_inputs = PrivateInputs::<PedersenHasher> { aux: &aux };
 
-    println!("sampling proving & verifying");
+    eprintln!("sampling proving & verifying");
 
     let pr = DrgPoRep::<PedersenHasher, _>::prove(&pp, &pub_inputs, &priv_inputs)
         .expect("failed to prove");

@@ -96,5 +96,5 @@ fn main() {
         proof::ProofType::Zigzag => zigzag_work(prover, params, seed),
     };
 
-    println!("\n\n{}", res);
+    println!("{}", res);
 }
