@@ -13,5 +13,9 @@ pub fn index() -> &'static str {
 
       POST /proof
           Send your results here. They should be sent as JSON.
+    
+    LEARN MORE
+      More details on how to play the replication game:
+      https://github.com/filecoin-project/replication-game-server
     "
 }
