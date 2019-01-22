@@ -10,6 +10,8 @@ This project contains two binaries.
 $ cargo run --bin replication-game-server
 ```
 
+This server requires Postgresql to work. The details of the expected configuration can be found in [`Rocket.toml`](Rocket.toml). The default environment is `development`.
+
 ### Design
 
 - GET `/seed`:

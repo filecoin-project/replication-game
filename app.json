@@ -1,0 +1,11 @@
+{
+  "name": "Replication Game Server",
+  "description": "Replication Game Server for Storage Proofs",
+  "repository": "https://github.com/filecoin-project/replication-game-server",
+  "success_url": "/",
+  "keywords": ["rust", "rocket"],
+  "website": "https://github.com/filecoin-project/replication-game-server",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+  }
+}

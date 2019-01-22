@@ -33,6 +33,7 @@ pub struct Params {
 #[derive(Debug, Clone, Serialize, Deserialize, DbEnum)]
 pub enum ProofType {
     Zigzag,
+    #[db_rename = "drgporep"]
     DrgPoRep,
 }
 

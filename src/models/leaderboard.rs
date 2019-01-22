@@ -4,7 +4,6 @@ use diesel::{self, prelude::*};
 use serde_derive::{Deserialize, Serialize};
 
 use crate::models::proof;
-use crate::schema::leaderboard::dsl::leaderboard as all_leaderboard;
 use crate::schema::{leaderboard, params};
 
 #[table_name = "leaderboard"]
@@ -26,9 +25,7 @@ pub struct PrintableEntry {
 }
 
 impl Entry {
-    pub fn all(conn: &SqliteConnection) -> QueryResult<Vec<PrintableEntry>> {
-        use crate::schema::leaderboard::dsl;
-
+    pub fn all(conn: &PgConnection) -> QueryResult<Vec<PrintableEntry>> {
         let rows = leaderboard::table
             .inner_join(params::table)
             .order(leaderboard::repl_time.asc())
@@ -49,7 +46,7 @@ impl Entry {
         prover: &str,
         repl_time: i32,
         params_id: i64,
-        conn: &SqliteConnection,
+        conn: &PgConnection,
     ) -> QueryResult<()> {
         use crate::schema::leaderboard::dsl;
 
@@ -96,7 +93,7 @@ pub struct Params {
 }
 
 impl Params {
-    pub fn insert(val: &proof::Params, conn: &SqliteConnection) -> QueryResult<i64> {
+    pub fn insert(val: &proof::Params, conn: &PgConnection) -> QueryResult<i64> {
         let serialized_params = serde_json::to_vec(val).expect("invalid params");
         let hash = Blake2b::digest(&serialized_params);
         let id = BigEndian::read_i64(&hash);
@@ -128,7 +125,7 @@ impl Params {
 pub fn upsert_entry_with_params(
     res: &proof::Response,
     repl_time: i32,
-    conn: &SqliteConnection,
+    conn: &PgConnection,
 ) -> QueryResult<()> {
     let params_id = Params::insert(&res.proof_params, conn)?;
 
