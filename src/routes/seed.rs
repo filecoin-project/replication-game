@@ -1,3 +1,4 @@
+use std::env;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use blake2::crypto_mac::Mac;
@@ -20,7 +21,8 @@ pub fn seed() -> ApiResult<Json<Seed>> {
     };
 
     // take the mac of the timestamp
-    let mut hasher = Blake2b::new_varkey(b"my key")?;
+    let key = env::var("GAME_KEY").unwrap_or_else(|_| "my cool key".into());
+    let mut hasher = Blake2b::new_varkey(key.as_bytes())?;
     hasher.input(format!("{}", ts).as_bytes());
     let result = hasher.result();
     let code_bytes = result.code().to_vec();
