@@ -23,16 +23,17 @@ This executes an actual game, using [rust-proofs](https://github.com/filecoin-pr
 
 ### Run our command line
 
-Make sure you run the nightly version of rust:
+Make sure you have all required dependencies installed:
 
-```bash
-rustup default nightly
-```
+- [rustup](https://www.rust-lang.org/tools/install)
+- Rust nightly (usually `rustup install nightly`)
+- [PostgreSQL](https://www.postgresql.org/)
+- Clang and libclang
 
 Compile the game binary:
 
 ```bash
-cargo build --release --bin replication-game
+cargo +nightly build --release --bin replication-game
 ```
 
 Set your player name:
@@ -99,7 +100,7 @@ So far, we have no bounty set up for this, but we are planning on doing so. If y
 ## Replication Game Server
 
 ```bash
-$ cargo run --bin replication-game-server
+$ cargo +nighlty run --bin replication-game-server
 ```
 
 This server requires Postgresql to work. The details of the expected configuration can be found in [`Rocket.toml`](Rocket.toml). The default environment is `development`.
