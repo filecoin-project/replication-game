@@ -23,6 +23,12 @@ This executes an actual game, using [rust-proofs](https://github.com/filecoin-pr
 
 ### Run our command line
 
+Make sure you run the nightly version of rust:
+
+```bash
+rustup default nightly
+```
+
 Compile the game binary:
 
 ```bash
