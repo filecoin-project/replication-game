@@ -1,12 +1,12 @@
 # The Replication Game
 
-> Compete on the fastest replication algorithm 
+> Compete on the fastest replication algorithm
 
 ![](https://ipfs.io/ipfs/Qmdr2HMghfsknH9nfrRU2fjcdqZK8bjM8xa2JShBkehsCF/giphy.gif)
 
 ## Introduction
 
-**What is this "game"?** The Replication Game is a competition where participants compete to outperform the default implementation of Proof-of-Replication. To participate in the game, you can run the current replication algorithm (or your own implementation) and post your proof on our server. 
+**What is this "game"?** The Replication Game is a competition where participants compete to outperform the default implementation of Proof-of-Replication. To participate in the game, you can run the current replication algorithm (or your own implementation) and post your proof on our server.
 
 **What is Proof-of-Replication?** Proof of Replication is the proof that: (1) the Filecoin Storage Market is secure: it ensures that miners cannot lie about storing users' data, (2) the Filecoin Blockchain is secure: it ensures that miners cannot lie about the amount of storage they have (remember, miners win blocks based on their storage power!). In Filecoin, we use the Proof of Replication inside "Sealing" during mining.
 
@@ -111,3 +111,9 @@ This server requires Postgresql to work. The details of the expected configurati
 - GET `/leaderboard`:
   - Shows a leaderboard of all the miners sorted by replication time
 
+## License
+
+The Filecoin Project is dual-licensed under Apache 2.0 and MIT terms:
+
+- Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
+- MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)

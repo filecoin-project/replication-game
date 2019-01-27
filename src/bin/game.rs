@@ -25,7 +25,7 @@ fn main() {
             Arg::with_name("vde")
                 .help("The VDE difficulty")
                 .long("vde")
-                .default_value("1")
+                .default_value("0")
                 .takes_value(true),
         )
         .arg(
