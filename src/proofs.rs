@@ -1,3 +1,8 @@
+use std::fs::File;
+use std::io::Write;
+
+use memmap::MmapMut;
+use memmap::MmapOptions;
 use pairing::bls12_381::Bls12;
 use rand::{thread_rng, Rng};
 
@@ -12,6 +17,18 @@ use storage_proofs::zigzag_drgporep::*;
 
 use crate::models::proof;
 use crate::models::seed::Seed;
+
+fn file_backed_mmap_from_random_bytes(rng: &mut impl Rng, n: usize) -> MmapMut {
+    let mut tmpfile: File = tempfile::tempfile().unwrap();
+
+    for _ in 0..n {
+        tmpfile
+            .write_all(&fr_into_bytes::<Bls12>(&rng.gen()))
+            .unwrap();
+    }
+
+    unsafe { MmapOptions::new().map_mut(&tmpfile).unwrap() }
+}
 
 pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String {
     let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&seed.seed);
@@ -31,9 +48,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
     eprintln!("generating fake data");
 
     let nodes = data_size / 32;
-    let mut data: Vec<u8> = (0..nodes)
-        .flat_map(|_| fr_into_bytes::<Bls12>(&rng.gen()))
-        .collect();
+    let mut data = file_backed_mmap_from_random_bytes(&mut rng, nodes);
 
     let sp = layered_drgporep::SetupParams {
         drg_porep_setup_params: drgporep::SetupParams {
