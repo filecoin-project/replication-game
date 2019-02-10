@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# play the filecoin replication game!
+
+usage() {
+  echo "usage: $0 <name> <size-in-kb> <algorithm>"
+  echo "example: $0 pizza 1048576 zigzag"
+  exit 0
+}
+
+die() {
+  echo >&2 "error: $@"
+  exit 1
+}
+
+require () {
+  which "$1" >/dev/null || die "please install $1"
+}
+
+prun () {
+  echo "> $@"
+  eval "$@"
+}
+
+# check params & help
+if [ $# -eq 0 ]; then usage 0
+elif [ "$1" = "-h" ]; then usage 0
+elif [ "$1" = "--help" ]; then usage 0
+elif [[ $# -eq 3 ]]; then
+  NAME=$1
+  SIZE=$2
+  ALGORITHM=$3
+else die "wrong number of arguments: $#"
+fi
+
+require curl
+require jq
+
+# the URL of the replication game server
+SERVER=https://replication-game.herokuapp.com
+
+# local temporary files
+SEEDFILE=seed.json
+PROOFFILE=proof.json
+
+# print out commands from here.
+
+# get the seed and timestamp
+# echo "getting the challenge seed"
+prun "curl -s $SERVER/seed >$SEEDFILE"
+SEED=$(cat seed.json | jq -r '.seed')
+TIMESTAMP=$(cat seed.json | jq -r '.timestamp')
+
+# generate the proof and save it to a local file
+# echo "invoking replication-game with params"
+prun "target/release/replication-game \
+  --prover '$NAME' \
+  --seed '$SEED' \
+  --timestamp '$TIMESTAMP' \
+  --size '$SIZE' \
+  '$ALGORITHM' >'$PROOFFILE'"
+
+# post the proof to the replication game server
+prun "curl -X POST -H 'Content-Type: application/json' -d '@$PROOFFILE' '$SERVER/proof'"
