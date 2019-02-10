@@ -21,8 +21,6 @@
 
 This executes an actual game, using [rust-proofs](https://github.com/filecoin-project/rust-proofs), feel free to implement your own version.
 
-### Run our command line
-
 Make sure you have all required dependencies installed:
 
 - [rustup](https://www.rust-lang.org/tools/install)
@@ -30,11 +28,32 @@ Make sure you have all required dependencies installed:
 - [PostgreSQL](https://www.postgresql.org/)
 - Clang and libclang
 
-Compile the game binary:
+From the replication-game/ directory, compile the game binary:
 
 ```bash
 cargo +nightly build --release --bin replication-game
 ```
+
+### Play the game from the command line
+
+There are two ways to play:
+- **Method 1:** Run the `play` helper script
+- **Method 2:** Run each individual command
+
+#### Method 1: Run the `play` helper script
+
+From the replication-game/ directory, run the `play` helper script in `bin/`, specifying:
+- `NAME`: your player name
+- `SIZE`: the size in KB of the data you want to replicate
+- `TYPE`: the type of algorithm you want to run (current options are `zigzag` and `drgporep`)
+
+```bash
+bin/play NAME SIZE TYPE
+```
+
+The `play` script will retrieve the seed from the game server, replicate the data, generate a proof, and then post that proof to the game server. The script runs each of the commands in **Method 2**, but wraps them in an easy-to-use shell script.
+
+#### Method 2: Run each individual command
 
 Set your player name:
 
@@ -69,11 +88,30 @@ curl -X POST -H "Content-Type: application/json" -d @./proof.json https://replic
 
 ### Check the current leaderboard
 
-To check the current leaderboard:
+There are three ways to check the leaderboard, two from the command line and one from the browser:
+- **Method 1:** (From the command line) Run the `show-leaderboard` helper script
+- **Method 2:** (From the command line) Curl the leaderboard
+- **Method 3:** View the leaderboard in the browser
+
+#### Method 1: Run the `show-leaderboard` helper script
+
+From the replication-game/ directory, run the `show-leaderboard` helper script in `bin/`, specifying `SIZE`, which is the size in KB by which you want to filter the leaderboard results. The leaderboard shows all results across all parameters in a single list, so filtering by `SIZE` allows you to see only those results that match a particular size. 
+
+```bash
+bin/show-leaderboard SIZE
+```
+
+#### Method 2: Curl the leaderboard
+
+To check the current leaderboard using `curl`:
 
 ```bash
 curl https://replication-game.herokuapp.com/leaderboard | jq
 ```
+
+#### Method 3: View the leaderboard in the browser
+
+You can also directly view the leaderboard in the browser at https://replication-game.herokuapp.com/leaderboard.
 
 ## FAQ
 
