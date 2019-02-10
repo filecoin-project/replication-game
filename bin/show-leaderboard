@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# show the filecoin replication game leaderboard!
+
+usage() {
+  echo "usage: $0 <size-in-kb>"
+  echo "example: $0 1048576"
+  exit 0
+}
+
+die() {
+  echo >&2 "error: $@"
+  exit 1
+}
+
+require () {
+  which "$1" >/dev/null || die "please install $1"
+}
+
+prun () {
+  echo "> $@"
+  eval "$@"
+}
+
+require curl
+require jq
+
+# check params & help
+if [ $# -eq 0 ]; then usage 0
+elif [ "$1" = "-h" ]; then usage 0
+elif [ "$1" = "--help" ]; then usage 0
+elif [[ $# -eq 1 ]]; then
+  SIZEKB=$1
+else die "wrong number of arguments: $#"
+fi
+
+# the URL of the replication game server
+SERVER=https://replication-game.herokuapp.com
+
+SIZEB=$(( $SIZEKB * 1024 ))
+
+echo >&2 "note: leaderboard sizes in bytes, not kilobytes."
+
+# print out commands from here.
+
+prun "curl -s '$SERVER/leaderboard' | jq '.[] | select(.params.size==$SIZEB)'"
