@@ -27,6 +27,7 @@ Make sure you have all required dependencies installed:
 - Rust nightly (usually `rustup install nightly`)
 - [PostgreSQL](https://www.postgresql.org/)
 - Clang and libclang
+- [jq](https://stedolan.github.io/jq/download/) (optional) - prettify json output on the command-line, for viewing the leaderbord
 
 From the replication-game/ directory, compile the game binary:
 
