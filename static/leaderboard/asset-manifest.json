@@ -1,7 +1,7 @@
 {
   "main.css": "/public/leaderboard/static/css/main.f6e2214a.chunk.css",
-  "main.js": "/public/leaderboard/static/js/main.7e96a555.chunk.js",
-  "main.js.map": "/public/leaderboard/static/js/main.7e96a555.chunk.js.map",
+  "main.js": "/public/leaderboard/static/js/main.25ae8283.chunk.js",
+  "main.js.map": "/public/leaderboard/static/js/main.25ae8283.chunk.js.map",
   "static/css/1.8bf1e1f1.chunk.css": "/public/leaderboard/static/css/1.8bf1e1f1.chunk.css",
   "static/js/1.15b3e694.chunk.js": "/public/leaderboard/static/js/1.15b3e694.chunk.js",
   "static/js/1.15b3e694.chunk.js.map": "/public/leaderboard/static/js/1.15b3e694.chunk.js.map",
@@ -11,10 +11,10 @@
   "static/media/gold.png": "/public/leaderboard/static/media/gold.86fe424e.png",
   "static/media/silver.png": "/public/leaderboard/static/media/silver.e694d2b3.png",
   "static/media/bronze.png": "/public/leaderboard/static/media/bronze.191e8a6b.png",
-  "static/media/index.css": "/public/leaderboard/static/media/Inter-UI-BoldItalic.fb221ed4.woff2",
+  "static/media/index.css": "/public/leaderboard/static/media/Inter-UI-MediumItalic.786fa10d.woff2",
   "static/css/main.f6e2214a.chunk.css.map": "/public/leaderboard/static/css/main.f6e2214a.chunk.css.map",
   "static/css/1.8bf1e1f1.chunk.css.map": "/public/leaderboard/static/css/1.8bf1e1f1.chunk.css.map",
   "index.html": "/public/leaderboard/index.html",
-  "precache-manifest.3771faa97d2cea8591e39640fe284005.js": "/public/leaderboard/precache-manifest.3771faa97d2cea8591e39640fe284005.js",
+  "precache-manifest.e28ae96e29a547f99b83aa0f10348dd4.js": "/public/leaderboard/precache-manifest.e28ae96e29a547f99b83aa0f10348dd4.js",
   "service-worker.js": "/public/leaderboard/service-worker.js"
 }
