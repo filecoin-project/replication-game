@@ -9,7 +9,7 @@ use rocket_contrib::json::Json;
 use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
 use storage_proofs::hasher::{Hasher, PedersenHasher};
-use storage_proofs::layered_drgporep;
+use storage_proofs::layered_drgporep::{self, LayerChallenges};
 use storage_proofs::proof::ProofScheme;
 use storage_proofs::zigzag_drgporep::*;
 
@@ -70,6 +70,7 @@ fn validate(res: &proof::Response) -> bool {
             let expansion_degree = params.expansion_degree.expect("missing expansion degree");
             let layers = params.layers.expect("missing layers");
             let comm_r_star = res.comm_r_star.expect("missing comm r star");
+            let layer_challenges = LayerChallenges::new_fixed(layers, challenge_count);
 
             let sp = layered_drgporep::SetupParams {
                 drg_porep_setup_params: drgporep::SetupParams {
@@ -81,15 +82,13 @@ fn validate(res: &proof::Response) -> bool {
                     },
                     sloth_iter,
                 },
-                layers,
-                challenge_count,
+                layer_challenges,
             };
 
             let pp = ZigZagDrgPoRep::<PedersenHasher>::setup(&sp).unwrap();
 
             let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
                 replica_id,
-                challenge_count,
                 tau: Some(res.tau),
                 comm_r_star,
                 k: Some(0),

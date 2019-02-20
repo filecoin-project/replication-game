@@ -10,7 +10,7 @@ use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
 use storage_proofs::fr32::fr_into_bytes;
 use storage_proofs::hasher::{Domain, Hasher, PedersenHasher};
-use storage_proofs::layered_drgporep;
+use storage_proofs::layered_drgporep::{self, LayerChallenges};
 use storage_proofs::porep::PoRep;
 use storage_proofs::proof::ProofScheme;
 use storage_proofs::zigzag_drgporep::*;
@@ -49,6 +49,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let nodes = data_size / 32;
     let mut data = file_backed_mmap_from_random_bytes(&mut rng, nodes);
+    let layer_challenges = LayerChallenges::new_fixed(layers, challenge_count);
 
     let sp = layered_drgporep::SetupParams {
         drg_porep_setup_params: drgporep::SetupParams {
@@ -61,8 +62,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
             },
             sloth_iter,
         },
-        layers,
-        challenge_count,
+        layer_challenges,
     };
 
     eprintln!("running setup");
@@ -75,14 +75,12 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
         replica_id,
-        challenge_count,
         tau: Some(tau.simplify()),
         comm_r_star: tau.comm_r_star,
         k: Some(0),
     };
 
     let priv_inputs = layered_drgporep::PrivateInputs {
-        replica: &data,
         aux,
         tau: tau.layer_taus.clone(),
     };

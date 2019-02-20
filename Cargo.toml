@@ -19,8 +19,8 @@ rocket = "0.4"
 blake2 = "0.8.0"
 hex = "0.3.2"
 crypto-mac = "0.7.0"
-filecoin-proofs = { git = "ssh://git@github.com/filecoin-project/rust-proofs.git" }
-storage-proofs = { git = "ssh://git@github.com/filecoin-project/rust-proofs.git" }
+filecoin-proofs = { git = "https://git@github.com/filecoin-project/rust-fil-proofs" }
+storage-proofs = { git = "https://git@github.com/filecoin-project/rust-fil-proofs" }
 diesel = { version = "1.3", features = ["postgres", "r2d2"] }
 diesel_migrations = "1.3"
 failure = "0.1"
