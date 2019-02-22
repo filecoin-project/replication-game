@@ -32,7 +32,7 @@ fn test_insertion() {
         // Get the tasks before making changes.
         let init_leaderboard = Entry::all(&conn).unwrap();
         // Get a seed
-        let mut response = client.get("/seed").dispatch();
+        let mut response = client.get("/api/seed").dispatch();
         assert_eq!(response.status(), Status::Ok);
         let body = response.body_string().unwrap();
         println!("response: {}", &body);
@@ -56,7 +56,7 @@ fn test_insertion() {
 
         // Issue a request to insert a result
         let response = client
-            .post("/proof")
+            .post("/api/proof")
             .header(ContentType::JSON)
             .body(proof_value)
             .dispatch();
@@ -75,7 +75,7 @@ fn test_insertion() {
 
         // check that the entry is in the leaderboard
 
-        let mut response = client.get("/leaderboard").dispatch();
+        let mut response = client.get("/api/leaderboard").dispatch();
         assert_eq!(response.status(), Status::Ok);
 
         let body = response.body_string().unwrap();
@@ -97,7 +97,7 @@ fn test_many_insertions() {
 
         for _ in 0..2 {
             // Get a seed
-            let mut response = client.get("/seed").dispatch();
+            let mut response = client.get("/api/seed").dispatch();
             assert_eq!(response.status(), Status::Ok);
             let body = response.body_string().unwrap();
             let seed: Seed = serde_json::from_str(&body).unwrap();
@@ -133,7 +133,7 @@ fn test_many_insertions() {
                 thread::sleep(time::Duration::from_millis(2000));
 
                 let response = client
-                    .post("/proof")
+                    .post("/api/proof")
                     .header(ContentType::JSON)
                     .body(proof_value1)
                     .dispatch();
@@ -153,14 +153,14 @@ fn test_many_insertions() {
 
             // First params, same prover, but faster
             {
-                let mut response = client.get("/seed").dispatch();
+                let mut response = client.get("/api/seed").dispatch();
                 assert_eq!(response.status(), Status::Ok);
                 let body = response.body_string().unwrap();
                 let seed: Seed = serde_json::from_str(&body).unwrap();
 
                 let proof_value = proofs::porep_work(id.clone(), params1, seed.clone());
                 let response = client
-                    .post("/proof")
+                    .post("/api/proof")
                     .header(ContentType::JSON)
                     .body(proof_value)
                     .dispatch();
@@ -187,7 +187,7 @@ fn test_many_insertions() {
             // Second params
             {
                 let response = client
-                    .post("/proof")
+                    .post("/api/proof")
                     .header(ContentType::JSON)
                     .body(&proof_value2)
                     .dispatch();
@@ -202,7 +202,7 @@ fn test_many_insertions() {
             // Clone of second params
             {
                 let response = client
-                    .post("/proof")
+                    .post("/api/proof")
                     .header(ContentType::JSON)
                     .body(&proof_value2)
                     .dispatch();
