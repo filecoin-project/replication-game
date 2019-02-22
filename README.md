@@ -65,7 +65,7 @@ export REPL_GAME_ID="ReadyPlayerOne"
 Get the seed from our server:
 
 ```bash
-curl https://replication-game.herokuapp.com/seed > seed.json
+curl https://replication-game.herokuapp.com/api/seed > seed.json
 export REPL_GAME_SEED=$(cat seed.json| jq -r '.seed')
 export REPL_GAME_TIMESTAMP=$(cat seed.json| jq -r '.timestamp')
 ```
@@ -84,7 +84,7 @@ Play the game:
 Send your proof:
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d @./proof.json https://replication-game.herokuapp.com/proof
+curl -X POST -H "Content-Type: application/json" -d @./proof.json https://replication-game.herokuapp.com/api/proof
 ```
 
 ### Check the current leaderboard
@@ -96,7 +96,7 @@ There are three ways to check the leaderboard, two from the command line and one
 
 #### Method 1: Run the `show-leaderboard` helper script
 
-From the replication-game/ directory, run the `show-leaderboard` helper script in `bin/`, specifying `SIZE`, which is the size in KB by which you want to filter the leaderboard results. The leaderboard shows all results across all parameters in a single list, so filtering by `SIZE` allows you to see only those results that match a particular size. 
+From the replication-game/ directory, run the `show-leaderboard` helper script in `bin/`, specifying `SIZE`, which is the size in KB by which you want to filter the leaderboard results. The leaderboard shows all results across all parameters in a single list, so filtering by `SIZE` allows you to see only those results that match a particular size.
 
 ```bash
 bin/show-leaderboard SIZE
@@ -107,12 +107,12 @@ bin/show-leaderboard SIZE
 To check the current leaderboard using `curl`:
 
 ```bash
-curl https://replication-game.herokuapp.com/leaderboard | jq
+curl https://replication-game.herokuapp.com/api/leaderboard | jq
 ```
 
 #### Method 3: View the leaderboard in the browser
 
-You can also directly view the leaderboard in the browser at https://replication-game.herokuapp.com/leaderboard.
+You can also directly view the leaderboard in the browser at https://replication-game.herokuapp.com/.
 
 ## FAQ
 
@@ -146,15 +146,15 @@ This server requires Postgresql to work. The details of the expected configurati
 
 ### API
 
-- GET `/seed`:
+- GET `/api/seed`:
   - Returns a `timestamp` (unix time) and a `seed` to be used as `replica_id` in the proof of replication
-- POST `/proof`
+- POST `/api/proof`
   - Inputs: `timestamp`, `seed`, `prover_id` and `proof`
   - Checks authenticity of the seed (using the timestamp and a secret on the server)
   - Checks that the `proof` is correct
   - Computes `replication_time = timestamp - current_time`
   - If `replication_time < times[prover_id]`, then `times[prover_id] = replication_time`
-- GET `/leaderboard`:
+- GET `/api/leaderboard`:
   - Shows a leaderboard of all the miners sorted by replication time
 
 ## License
