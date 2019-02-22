@@ -18,6 +18,7 @@ mod tests;
 
 use rocket::fairing::AdHoc;
 use rocket::{catchers, routes, Rocket};
+use rocket_contrib::serve::StaticFiles;
 
 use crate::db::DbConn;
 
@@ -48,7 +49,8 @@ pub fn rocket() -> (Rocket, Option<DbConn>) {
                 routes::proof::proof,
                 routes::leaderboard::leaderboard
             ],
-        );
+        )
+        .mount("/public", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")));
 
     let conn = if cfg!(test) {
         DbConn::get_one(&rocket)

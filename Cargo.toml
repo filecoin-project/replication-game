@@ -43,7 +43,7 @@ features = ["expose-arith", "u128-support"]
 [dependencies.rocket_contrib]
 version = "0.4"
 default-features = false
-features = ["diesel_postgres_pool", "json"]
+features = ["diesel_postgres_pool", "json", "serve"]
 
 [dev-dependencies]
 parking_lot = "0.7.1"
