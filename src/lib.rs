@@ -42,7 +42,7 @@ pub fn rocket() -> (Rocket, Option<DbConn>) {
         }))
         .register(catchers![routes::catchers::not_found])
         .mount(
-            "/",
+            "/api",
             routes![
                 routes::index::index,
                 routes::seed::seed,
@@ -50,7 +50,7 @@ pub fn rocket() -> (Rocket, Option<DbConn>) {
                 routes::leaderboard::leaderboard
             ],
         )
-        .mount("/public", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")));
+        .mount("/", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")));
 
     let conn = if cfg!(test) {
         DbConn::get_one(&rocket)
