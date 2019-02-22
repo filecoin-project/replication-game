@@ -50,7 +50,7 @@ pub fn rocket() -> (Rocket, Option<DbConn>) {
                 routes::leaderboard::leaderboard
             ],
         )
-        .mount("/", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")));
+        .mount("/", StaticFiles::from("./static"));
 
     let conn = if cfg!(test) {
         DbConn::get_one(&rocket)
