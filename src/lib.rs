@@ -10,6 +10,7 @@ pub mod proofs;
 
 mod db;
 mod error;
+mod gzip;
 mod routes;
 mod schema;
 
@@ -30,6 +31,7 @@ embed_migrations!();
 pub fn rocket() -> (Rocket, Option<DbConn>) {
     let rocket = rocket::ignite()
         .attach(DbConn::fairing())
+        .attach(gzip::Gzip)
         .attach(AdHoc::on_attach("Database Migrations", |rocket| {
             let conn = DbConn::get_one(&rocket).expect("database connection");
             match embedded_migrations::run(&*conn) {
