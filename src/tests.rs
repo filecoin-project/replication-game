@@ -27,6 +27,20 @@ macro_rules! run_test {
 }
 
 #[test]
+fn test_cache_headers() {
+    run_test!(|client, _conn| {
+        let response = client.get("/index.html").dispatch();
+        assert_eq!(response.status(), Status::Ok);
+
+        let headers = response.headers();
+        assert!(
+            headers.contains("Cache-Control"),
+            "missing cache-control header"
+        );
+    });
+}
+
+#[test]
 fn test_insertion() {
     run_test!(|client, conn| {
         // Get the tasks before making changes.
