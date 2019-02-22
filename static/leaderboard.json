@@ -75,6 +75,21 @@
     }
   },
   {
+    "id": 55,
+    "prover": "PlayerOfGames",
+    "repl_time": 5,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 13,
     "prover": "jbenet",
     "repl_time": 5,
@@ -90,8 +105,8 @@
     }
   },
   {
-    "id": 14,
-    "prover": "jbenett",
+    "id": 68,
+    "prover": "tianru13",
     "repl_time": 6,
     "params": {
       "id": 2875142023595730624,
@@ -120,9 +135,144 @@
     }
   },
   {
+    "id": 14,
+    "prover": "jbenett",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 67,
+    "prover": "tianru12",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 66,
+    "prover": "tianru11",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 61,
+    "prover": "tianru03",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 15,
     "prover": "pizzaparty",
     "repl_time": 7,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 65,
+    "prover": "tianru10",
+    "repl_time": 7,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 57,
+    "prover": "blackfirefly",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 54,
+    "prover": "BlackFireFly",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 56,
+    "prover": "IPFSFund",
+    "repl_time": 9,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 60,
+    "prover": "tianru02",
+    "repl_time": 9,
     "params": {
       "id": 2875142023595730624,
       "typ": "Zigzag",
@@ -165,6 +315,51 @@
     }
   },
   {
+    "id": 62,
+    "prover": "tianru_201902221059_10240",
+    "repl_time": 50,
+    "params": {
+      "id": -6035303110978459692,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 69,
+    "prover": "tianru20",
+    "repl_time": 50,
+    "params": {
+      "id": -6035303110978459692,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 63,
+    "prover": "tianru",
+    "repl_time": 50,
+    "params": {
+      "id": -6035303110978459692,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 12,
     "prover": "pizza",
     "repl_time": 122,
@@ -172,6 +367,96 @@
       "id": -8973295860119921984,
       "typ": "Zigzag",
       "size": 4096,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 59,
+    "prover": "tianru",
+    "repl_time": 128,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 74,
+    "prover": "YiyeSushu",
+    "repl_time": 193,
+    "params": {
+      "id": -6035303110978459692,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 73,
+    "prover": "YiyeSushu",
+    "repl_time": 628,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 70,
+    "prover": "tianru20",
+    "repl_time": 657,
+    "params": {
+      "id": -185733344676357671,
+      "typ": "Zigzag",
+      "size": 104857600,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 64,
+    "prover": "tianru",
+    "repl_time": 663,
+    "params": {
+      "id": -185733344676357671,
+      "typ": "Zigzag",
+      "size": 104857600,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 71,
+    "prover": "tianru_21",
+    "repl_time": 682,
+    "params": {
+      "id": -185733344676357671,
+      "typ": "Zigzag",
+      "size": 104857600,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -195,6 +480,21 @@
     }
   },
   {
+    "id": 58,
+    "prover": "ReadyPlayerOne",
+    "repl_time": 779,
+    "params": {
+      "id": 2875142023595730624,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 11,
     "prover": "lanzafame",
     "repl_time": 1179,
@@ -210,28 +510,13 @@
     }
   },
   {
-    "id": 8,
-    "prover": "porcuquine",
-    "repl_time": 2379,
+    "id": 75,
+    "prover": "YiyeSushu",
+    "repl_time": 1192,
     "params": {
-      "id": 8939453956850745335,
+      "id": 3818173106873231892,
       "typ": "Zigzag",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 7,
-    "prover": "porcuquine",
-    "repl_time": 2379,
-    "params": {
-      "id": 8939453956850745335,
-      "typ": "Zigzag",
-      "size": 1073741824,
+      "size": 4194304,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -256,6 +541,36 @@
   },
   {
     "id": 5,
+    "prover": "porcuquine",
+    "repl_time": 2379,
+    "params": {
+      "id": 8939453956850745335,
+      "typ": "Zigzag",
+      "size": 1073741824,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 8,
+    "prover": "porcuquine",
+    "repl_time": 2379,
+    "params": {
+      "id": 8939453956850745335,
+      "typ": "Zigzag",
+      "size": 1073741824,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 7,
     "prover": "porcuquine",
     "repl_time": 2379,
     "params": {
@@ -303,6 +618,21 @@
     "id": 17,
     "prover": "person",
     "repl_time": 2598,
+    "params": {
+      "id": 8939453956850745335,
+      "typ": "Zigzag",
+      "size": 1073741824,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 72,
+    "prover": "tianru1GIB",
+    "repl_time": 5109,
     "params": {
       "id": 8939453956850745335,
       "typ": "Zigzag",
