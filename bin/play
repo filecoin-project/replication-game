@@ -37,7 +37,7 @@ require curl
 require jq
 
 # the URL of the replication game server
-SERVER=https://replication-game.herokuapp.com
+SERVER=https://replication-game.herokuapp.com/api
 
 # local temporary files
 SEEDFILE=seed.json
