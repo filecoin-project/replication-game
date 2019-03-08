@@ -1,7 +1,7 @@
 {
   "main.css": "./static/css/main.88adb18f.chunk.css",
-  "main.js": "./static/js/main.6434a68d.chunk.js",
-  "main.js.map": "./static/js/main.6434a68d.chunk.js.map",
+  "main.js": "./static/js/main.1be8287b.chunk.js",
+  "main.js.map": "./static/js/main.1be8287b.chunk.js.map",
   "static/css/1.90a3a6b6.chunk.css": "./static/css/1.90a3a6b6.chunk.css",
   "static/js/1.6fad9b12.chunk.js": "./static/js/1.6fad9b12.chunk.js",
   "static/js/1.6fad9b12.chunk.js.map": "./static/js/1.6fad9b12.chunk.js.map",
@@ -18,9 +18,9 @@
   "static/media/proof-Zigzag.svg": "./static/media/proof-Zigzag.6e939b4e.svg",
   "static/media/proof-Unknown.svg": "./static/media/proof-Unknown.d46fcfb9.svg",
   "static/media/index.css": "./static/media/Inter-UI-BoldItalic.fb221ed4.woff2",
-  "static/css/1.90a3a6b6.chunk.css.map": "./static/css/1.90a3a6b6.chunk.css.map",
   "static/css/main.88adb18f.chunk.css.map": "./static/css/main.88adb18f.chunk.css.map",
+  "static/css/1.90a3a6b6.chunk.css.map": "./static/css/1.90a3a6b6.chunk.css.map",
   "index.html": "./index.html",
-  "precache-manifest.68eabaf04024d0566b5bf8d1d29b8c8a.js": "./precache-manifest.68eabaf04024d0566b5bf8d1d29b8c8a.js",
+  "precache-manifest.04bc92b652f24655a656c2d76eea7f26.js": "./precache-manifest.04bc92b652f24655a656c2d76eea7f26.js",
   "service-worker.js": "./service-worker.js"
 }
