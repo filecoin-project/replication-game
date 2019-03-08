@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "1be8287baa2bc2a5105c",
+    "revision": "97eeb623cdc5d575c4b4",
     "url": "./static/css/main.88adb18f.chunk.css"
   },
   {
-    "revision": "1be8287baa2bc2a5105c",
-    "url": "./static/js/main.1be8287b.chunk.js"
+    "revision": "97eeb623cdc5d575c4b4",
+    "url": "./static/js/main.97eeb623.chunk.js"
   },
   {
     "revision": "6fad9b12d8490629aee6",
@@ -60,32 +60,32 @@ self.__precacheManifest = [
     "url": "./static/media/proof-Unknown.d46fcfb9.svg"
   },
   {
-    "revision": "ee3ac7e480c3c83887f3b50d02656dc0",
-    "url": "./static/media/Montserrat-Light.ee3ac7e4.woff2"
-  },
-  {
     "revision": "515eeaf8b22c193a82e30586b2fda0ae",
     "url": "./static/media/Montserrat-LightItalic.515eeaf8.woff2"
+  },
+  {
+    "revision": "ee3ac7e480c3c83887f3b50d02656dc0",
+    "url": "./static/media/Montserrat-Light.ee3ac7e4.woff2"
   },
   {
     "revision": "c38a9d8c4a647eadd860c2893c682d2b",
     "url": "./static/media/Montserrat-Regular.c38a9d8c.woff2"
   },
   {
-    "revision": "940e32eb055d675e57c51f3b6879fdd7",
-    "url": "./static/media/Montserrat-Italic.940e32eb.woff2"
-  },
-  {
     "revision": "b4f9714141878f10bbf0b8ab6e143717",
     "url": "./static/media/Montserrat-SemiBold.b4f97141.woff2"
   },
   {
-    "revision": "9282e5ff8bdd6ef6d861363d0a8e5d7c",
-    "url": "./static/media/Montserrat-SemiBoldItalic.9282e5ff.woff2"
+    "revision": "940e32eb055d675e57c51f3b6879fdd7",
+    "url": "./static/media/Montserrat-Italic.940e32eb.woff2"
   },
   {
     "revision": "48d9a2cc39bc60ea3f87e8348b2a17e1",
     "url": "./static/media/Montserrat-Bold.48d9a2cc.woff2"
+  },
+  {
+    "revision": "9282e5ff8bdd6ef6d861363d0a8e5d7c",
+    "url": "./static/media/Montserrat-SemiBoldItalic.9282e5ff.woff2"
   },
   {
     "revision": "4e7ad891b89cc53655a7b2b4845fab43",
@@ -116,7 +116,7 @@ self.__precacheManifest = [
     "url": "./static/media/Inter-UI-BoldItalic.fb221ed4.woff2"
   },
   {
-    "revision": "53a308e1f52452b675043769b46ce1af",
+    "revision": "c403260baaa95dc5fc5b9fb6ddbfcdc8",
     "url": "./index.html"
   }
 ];
