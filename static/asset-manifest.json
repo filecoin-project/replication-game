@@ -1,10 +1,10 @@
 {
   "main.css": "./static/css/main.88adb18f.chunk.css",
-  "main.js": "./static/js/main.09b6c35c.chunk.js",
-  "main.js.map": "./static/js/main.09b6c35c.chunk.js.map",
+  "main.js": "./static/js/main.6434a68d.chunk.js",
+  "main.js.map": "./static/js/main.6434a68d.chunk.js.map",
   "static/css/1.90a3a6b6.chunk.css": "./static/css/1.90a3a6b6.chunk.css",
-  "static/js/1.65e885bb.chunk.js": "./static/js/1.65e885bb.chunk.js",
-  "static/js/1.65e885bb.chunk.js.map": "./static/js/1.65e885bb.chunk.js.map",
+  "static/js/1.6fad9b12.chunk.js": "./static/js/1.6fad9b12.chunk.js",
+  "static/js/1.6fad9b12.chunk.js.map": "./static/js/1.6fad9b12.chunk.js.map",
   "runtime~main.js": "./static/js/runtime~main.4a686d48.js",
   "runtime~main.js.map": "./static/js/runtime~main.4a686d48.js.map",
   "static/media/filecoin-logo.svg": "./static/media/filecoin-logo.346c3e5d.svg",
@@ -17,10 +17,10 @@
   "static/media/proof-DrgPoRep.svg": "./static/media/proof-DrgPoRep.9d6b5bb2.svg",
   "static/media/proof-Zigzag.svg": "./static/media/proof-Zigzag.6e939b4e.svg",
   "static/media/proof-Unknown.svg": "./static/media/proof-Unknown.d46fcfb9.svg",
-  "static/media/index.css": "./static/media/Inter-UI-MediumItalic.786fa10d.woff2",
+  "static/media/index.css": "./static/media/Inter-UI-BoldItalic.fb221ed4.woff2",
   "static/css/1.90a3a6b6.chunk.css.map": "./static/css/1.90a3a6b6.chunk.css.map",
   "static/css/main.88adb18f.chunk.css.map": "./static/css/main.88adb18f.chunk.css.map",
   "index.html": "./index.html",
-  "precache-manifest.a4033e999521dc8b5859c1d5eddae4ea.js": "./precache-manifest.a4033e999521dc8b5859c1d5eddae4ea.js",
+  "precache-manifest.68eabaf04024d0566b5bf8d1d29b8c8a.js": "./precache-manifest.68eabaf04024d0566b5bf8d1d29b8c8a.js",
   "service-worker.js": "./service-worker.js"
 }
