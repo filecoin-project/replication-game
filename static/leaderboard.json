@@ -1,8 +1,68 @@
 [
   {
-    "id": 9,
-    "prover": "porcuquine",
+    "id": 125,
+    "prover": "Whyrusleeping",
     "repl_time": 0,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 165,
+    "prover": "rjan90",
+    "repl_time": 1,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 120,
+    "prover": "Whyrusleeping",
+    "repl_time": 1,
+    "params": {
+      "id": -2901411057259781000,
+      "typ": "DrgPoRep",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 162,
+    "prover": "rjan90",
+    "repl_time": 1,
+    "params": {
+      "id": -2901411057259781000,
+      "typ": "DrgPoRep",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 166,
+    "prover": "rjan90",
+    "repl_time": 1,
     "params": {
       "id": -2822207868961647600,
       "typ": "Zigzag",
@@ -15,13 +75,13 @@
     }
   },
   {
-    "id": 18,
-    "prover": "porcuquine",
+    "id": 123,
+    "prover": "Whyrusleeping",
     "repl_time": 1,
     "params": {
-      "id": -8973295860119922000,
+      "id": -2822207868961647600,
       "typ": "Zigzag",
-      "size": 4096,
+      "size": 10240,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -45,7 +105,7 @@
     }
   },
   {
-    "id": 10,
+    "id": 122,
     "prover": "porcuquine",
     "repl_time": 3,
     "params": {
@@ -60,9 +120,99 @@
     }
   },
   {
+    "id": 117,
+    "prover": "Whyrusleeping",
+    "repl_time": 3,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 164,
+    "prover": "rjan90",
+    "repl_time": 4,
+    "params": {
+      "id": -3754677902270980600,
+      "typ": "DrgPoRep",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 119,
+    "prover": "Whyrusleeping",
+    "repl_time": 4,
+    "params": {
+      "id": -3754677902270980600,
+      "typ": "DrgPoRep",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 139,
+    "prover": "lt",
+    "repl_time": 4,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 20,
     "prover": "eli",
     "repl_time": 4,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 158,
+    "prover": "rjan90",
+    "repl_time": 5,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 159,
+    "prover": "rjan90",
+    "repl_time": 5,
     "params": {
       "id": 2875142023595730400,
       "typ": "Zigzag",
@@ -90,9 +240,144 @@
     }
   },
   {
+    "id": 155,
+    "prover": "rjan90",
+    "repl_time": 5,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 157,
+    "prover": "rjan90",
+    "repl_time": 5,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 13,
     "prover": "jbenet",
     "repl_time": 5,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 156,
+    "prover": "rjan90",
+    "repl_time": 5,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 68,
+    "prover": "tianru13",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 66,
+    "prover": "tianru11",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 67,
+    "prover": "tianru12",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 127,
+    "prover": "liuy",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 128,
+    "prover": "liuy",
+    "repl_time": 6,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 14,
+    "prover": "jbenett",
+    "repl_time": 6,
     "params": {
       "id": 2875142023595730400,
       "typ": "Zigzag",
@@ -135,66 +420,6 @@
     }
   },
   {
-    "id": 68,
-    "prover": "tianru13",
-    "repl_time": 6,
-    "params": {
-      "id": 2875142023595730400,
-      "typ": "Zigzag",
-      "size": 1048576,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 14,
-    "prover": "jbenett",
-    "repl_time": 6,
-    "params": {
-      "id": 2875142023595730400,
-      "typ": "Zigzag",
-      "size": 1048576,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 67,
-    "prover": "tianru12",
-    "repl_time": 6,
-    "params": {
-      "id": 2875142023595730400,
-      "typ": "Zigzag",
-      "size": 1048576,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 66,
-    "prover": "tianru11",
-    "repl_time": 6,
-    "params": {
-      "id": 2875142023595730400,
-      "typ": "Zigzag",
-      "size": 1048576,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
     "id": 15,
     "prover": "pizzaparty",
     "repl_time": 7,
@@ -202,6 +427,21 @@
       "id": 2875142023595730400,
       "typ": "Zigzag",
       "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 126,
+    "prover": "Whyrusleeping",
+    "repl_time": 7,
+    "params": {
+      "id": 7307213965081976000,
+      "typ": "Zigzag",
+      "size": 2097152,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -225,8 +465,8 @@
     }
   },
   {
-    "id": 57,
-    "prover": "blackfirefly",
+    "id": 132,
+    "prover": "孙慧娟",
     "repl_time": 8,
     "params": {
       "id": 2875142023595730400,
@@ -255,9 +495,129 @@
     }
   },
   {
-    "id": 60,
-    "prover": "tianru02",
-    "repl_time": 9,
+    "id": 57,
+    "prover": "blackfirefly",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 140,
+    "prover": "IPFS原力区",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 131,
+    "prover": "IPFS原力区",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 130,
+    "prover": "IPFS原力区",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 129,
+    "prover": "IPFS原力区",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 138,
+    "prover": "lt",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 109,
+    "prover": "孙慧娟",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 108,
+    "prover": "孙慧娟",
+    "repl_time": 8,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 133,
+    "prover": "孙慧娟",
+    "repl_time": 8,
     "params": {
       "id": 2875142023595730400,
       "typ": "Zigzag",
@@ -272,6 +632,21 @@
   {
     "id": 56,
     "prover": "IPFSFund",
+    "repl_time": 9,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 60,
+    "prover": "tianru02",
     "repl_time": 9,
     "params": {
       "id": 2875142023595730400,
@@ -300,6 +675,66 @@
     }
   },
   {
+    "id": 142,
+    "prover": "axin",
+    "repl_time": 10,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 124,
+    "prover": "Whyrusleeping",
+    "repl_time": 10,
+    "params": {
+      "id": 3818173106873232000,
+      "typ": "Zigzag",
+      "size": 4194304,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 160,
+    "prover": "rjan90",
+    "repl_time": 11,
+    "params": {
+      "id": 7307213965081976000,
+      "typ": "Zigzag",
+      "size": 2097152,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 161,
+    "prover": "rjan90",
+    "repl_time": 14,
+    "params": {
+      "id": 3818173106873232000,
+      "typ": "Zigzag",
+      "size": 4194304,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 19,
     "prover": "eli",
     "repl_time": 15,
@@ -315,7 +750,7 @@
     }
   },
   {
-    "id": 100,
+    "id": 99,
     "prover": "ipfs原力区",
     "repl_time": 19,
     "params": {
@@ -345,7 +780,7 @@
     }
   },
   {
-    "id": 99,
+    "id": 100,
     "prover": "ipfs原力区",
     "repl_time": 19,
     "params": {
@@ -390,6 +825,36 @@
     }
   },
   {
+    "id": 136,
+    "prover": "sunhuijuan",
+    "repl_time": 24,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 135,
+    "prover": "sunhuijuan",
+    "repl_time": 24,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 101,
     "prover": "ipfs原力区",
     "repl_time": 26,
@@ -405,7 +870,157 @@
     }
   },
   {
-    "id": 112,
+    "id": 118,
+    "prover": "Whyrusleeping",
+    "repl_time": 28,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 7,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 5,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 4,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 115,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 18,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 10,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 9,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 8,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 6,
+    "prover": "porcuquine",
+    "repl_time": 31,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 111,
     "prover": "Ipfs原力区",
     "repl_time": 35,
     "params": {
@@ -420,7 +1035,7 @@
     }
   },
   {
-    "id": 111,
+    "id": 112,
     "prover": "Ipfs原力区",
     "repl_time": 35,
     "params": {
@@ -495,6 +1110,21 @@
     }
   },
   {
+    "id": 168,
+    "prover": "rjan90",
+    "repl_time": 41,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 106,
     "prover": "zfl",
     "repl_time": 41,
@@ -502,6 +1132,21 @@
       "id": -2420357494704776700,
       "typ": "DrgPoRep",
       "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 137,
+    "prover": "孙慧娟",
+    "repl_time": 50,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -562,6 +1207,66 @@
       "id": -2901411057259781000,
       "typ": "DrgPoRep",
       "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 143,
+    "prover": "axin",
+    "repl_time": 52,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 134,
+    "prover": "shj",
+    "repl_time": 52,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 141,
+    "prover": "IPFS原力区",
+    "repl_time": 52,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 144,
+    "prover": "shj",
+    "repl_time": 52,
+    "params": {
+      "id": -6035303110978460000,
+      "typ": "Zigzag",
+      "size": 10485760,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -705,6 +1410,51 @@
     }
   },
   {
+    "id": 154,
+    "prover": "suzakinishi",
+    "repl_time": 222,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 163,
+    "prover": "rjan90",
+    "repl_time": 317,
+    "params": {
+      "id": 8586938920904822000,
+      "typ": "DrgPoRep",
+      "size": 1073741824,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 116,
+    "prover": "Whyrusleeping",
+    "repl_time": 317,
+    "params": {
+      "id": 8586938920904822000,
+      "typ": "DrgPoRep",
+      "size": 1073741824,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 89,
     "prover": "LiFei",
     "repl_time": 322,
@@ -727,6 +1477,21 @@
       "id": 2875142023595730400,
       "typ": "Zigzag",
       "size": 1048576,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 121,
+    "prover": "Whyrusleeping",
+    "repl_time": 345,
+    "params": {
+      "id": -185733344676357660,
+      "typ": "Zigzag",
+      "size": 104857600,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -765,6 +1530,111 @@
     }
   },
   {
+    "id": 148,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 145,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 146,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 147,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 149,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 150,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 151,
+    "prover": "xjxh.io",
+    "repl_time": 491,
+    "params": {
+      "id": 390812100441266750,
+      "typ": "Zigzag",
+      "size": 1024,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 105,
     "prover": "Sunhuijuan",
     "repl_time": 492,
@@ -780,6 +1650,21 @@
     }
   },
   {
+    "id": 167,
+    "prover": "rjan90",
+    "repl_time": 540,
+    "params": {
+      "id": -185733344676357660,
+      "typ": "Zigzag",
+      "size": 104857600,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 91,
     "prover": "LiFei",
     "repl_time": 566,
@@ -787,6 +1672,21 @@
       "id": 7967971959614620000,
       "typ": "Zigzag",
       "size": 10240000,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 152,
+    "prover": "xjxh.io",
+    "repl_time": 608,
+    "params": {
+      "id": 2875142023595730400,
+      "typ": "Zigzag",
+      "size": 1048576,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -885,6 +1785,21 @@
     }
   },
   {
+    "id": 153,
+    "prover": "xjxh.io",
+    "repl_time": 715,
+    "params": {
+      "id": -2822207868961647600,
+      "typ": "Zigzag",
+      "size": 10240,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
     "id": 58,
     "prover": "ReadyPlayerOne",
     "repl_time": 779,
@@ -892,36 +1807,6 @@
       "id": 2875142023595730400,
       "typ": "Zigzag",
       "size": 1048576,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 109,
-    "prover": "孙慧娟",
-    "repl_time": 933,
-    "params": {
-      "id": 8586938920904822000,
-      "typ": "DrgPoRep",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 108,
-    "prover": "孙慧娟",
-    "repl_time": 933,
-    "params": {
-      "id": 8586938920904822000,
-      "typ": "DrgPoRep",
-      "size": 1073741824,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
@@ -1020,84 +1905,9 @@
     }
   },
   {
-    "id": 8,
-    "prover": "porcuquine",
-    "repl_time": 2379,
-    "params": {
-      "id": 8939453956850745000,
-      "typ": "Zigzag",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 5,
-    "prover": "porcuquine",
-    "repl_time": 2379,
-    "params": {
-      "id": 8939453956850745000,
-      "typ": "Zigzag",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 4,
-    "prover": "porcuquine",
-    "repl_time": 2379,
-    "params": {
-      "id": 8939453956850745000,
-      "typ": "Zigzag",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 6,
-    "prover": "porcuquine",
-    "repl_time": 2379,
-    "params": {
-      "id": 8939453956850745000,
-      "typ": "Zigzag",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
-    "id": 7,
-    "prover": "porcuquine",
-    "repl_time": 2379,
-    "params": {
-      "id": 8939453956850745000,
-      "typ": "Zigzag",
-      "size": 1073741824,
-      "challenge_count": 2,
-      "vde": 0,
-      "degree": 6,
-      "expansion_degree": 6,
-      "layers": 10
-    }
-  },
-  {
     "id": 2,
     "prover": "Whyrusleeping",
-    "repl_time": 2494,
+    "repl_time": 2317,
     "params": {
       "id": 8939453956850745000,
       "typ": "Zigzag",
@@ -1147,6 +1957,21 @@
       "id": 7307213965081976000,
       "typ": "Zigzag",
       "size": 2097152,
+      "challenge_count": 2,
+      "vde": 0,
+      "degree": 6,
+      "expansion_degree": 6,
+      "layers": 10
+    }
+  },
+  {
+    "id": 169,
+    "prover": "rjan90",
+    "repl_time": 3332,
+    "params": {
+      "id": 8939453956850745000,
+      "typ": "Zigzag",
+      "size": 1073741824,
       "challenge_count": 2,
       "vde": 0,
       "degree": 6,
