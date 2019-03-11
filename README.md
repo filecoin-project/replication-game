@@ -1,6 +1,6 @@
 # The Replication Game
 
-> Compete on the fastest replication algorithm
+> Compete on the fastest replication algorithm - [Participate here!](http://replication-game.herokuapp.com/)
 
 ![](https://ipfs.io/ipfs/Qmdr2HMghfsknH9nfrRU2fjcdqZK8bjM8xa2JShBkehsCF/giphy.gif)
 
