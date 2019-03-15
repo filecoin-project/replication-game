@@ -49,7 +49,22 @@ From the replication-game/ directory, run the `play` helper script in `bin/`, sp
 - `TYPE`: the type of algorithm you want to run (current options are `zigzag` and `drgporep`)
 
 ```bash
-bin/play NAME SIZE TYPE
+# Run like this:
+# bin/play NAME SIZE TYPE
+
+# E.g.
+
+# Zigzag 10MiB
+bin/play NAME 10240 zigzag
+
+# Zigzag 1GiB
+bin/play NAME 1048576 zigzag
+
+# DrgPoRep 10MiB
+bin/play NAME 10240 drgporep
+
+# DrgPoRep 1GiB
+bin/play NAME 1048576 drgporep
 ```
 
 The `play` script will retrieve the seed from the game server, replicate the data, generate a proof, and then post that proof to the game server. The script runs each of the commands in **Method 2**, but wraps them in an easy-to-use shell script.
@@ -77,7 +92,7 @@ Play the game:
 	--prover $REPL_GAME_ID \
 	--seed $REPL_GAME_SEED \
 	--timestamp $REPL_GAME_TIMESTAMP \
-	--size 1048576 \
+	--size 10240 \
 	zigzag > proof.json
 ```
 
