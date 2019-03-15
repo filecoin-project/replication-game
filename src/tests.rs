@@ -62,8 +62,7 @@ fn test_insertion() {
             challenge_count: 1,
             vde: 1,
             degree: 3,
-            expansion_degree: None,
-            layers: None,
+            zigzag: None,
         };
 
         let proof_value = proofs::porep_work(id.clone(), params, seed.clone());
@@ -124,8 +123,7 @@ fn test_many_insertions() {
                 challenge_count: 1,
                 vde: 1,
                 degree: 3,
-                expansion_degree: None,
-                layers: None,
+                zigzag: None,
             };
             let params2 = proof::Params {
                 typ: proof::ProofType::DrgPoRep,
@@ -133,12 +131,27 @@ fn test_many_insertions() {
                 challenge_count: 2,
                 vde: 1,
                 degree: 3,
-                expansion_degree: None,
-                layers: None,
+                zigzag: None,
+            };
+
+            let params3 = proof::Params {
+                typ: proof::ProofType::Zigzag,
+                size: 1024,
+                challenge_count: 1,
+                vde: 1,
+                degree: 3,
+                zigzag: Some(proof::ZigZagParams {
+                    expansion_degree: 8,
+                    layers: 2,
+                    is_tapered: true,
+                    taper_layers: 2,
+                    taper: 1.2,
+                }),
             };
 
             let proof_value1 = proofs::porep_work(id.clone(), params1.clone(), seed.clone());
             let proof_value2 = proofs::porep_work(id.clone(), params2.clone(), seed.clone());
+            let proof_value3 = proofs::porep_work(id.clone(), params3.clone(), seed.clone());
 
             // First params
             let old_repl_time = {
@@ -204,6 +217,21 @@ fn test_many_insertions() {
                     .post("/api/proof")
                     .header(ContentType::JSON)
                     .body(&proof_value2)
+                    .dispatch();
+                assert_eq!(response.status(), Status::Ok);
+
+                // Ensure we have one more entry the database.
+                let new_leaderboard = Entry::all(&conn).unwrap();
+                assert_eq!(new_leaderboard.len(), prev_len + 1);
+                prev_len = new_leaderboard.len();
+            }
+
+            // Third params
+            {
+                let response = client
+                    .post("/api/proof")
+                    .header(ContentType::JSON)
+                    .body(&proof_value3)
                     .dispatch();
                 assert_eq!(response.status(), Status::Ok);
 
