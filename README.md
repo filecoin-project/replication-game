@@ -12,7 +12,7 @@
 
 **How does Proof of Replication work?** The intuition behind Proof of Replication is the following: the data from the Filecoin market is encoded via a slow sequential computation that cannot be parallelized.
 
-**How can I climb up in the leaderboard?** There are some strategies to replicate "faster", some are practical (software and hardware optimizations), some are believe to be impractical or impossible (get ready to win a price and be remembered in the history of cryptography if you do so!)
+**How can I climb up in the leaderboard?** There are some strategies to replicate "faster", some are practical (software and hardware optimizations), some are believed to be impractical or impossible (get ready to win a price and be remembered in the history of cryptography if you do so!)
 
 - *Practical attempts*: Implement a faster replication algorithm with better usage of memory, optimize some parts of the algorithm (e.g. Pedersen, Blake2s) in hardware (e.g. FPGA, GPU, ASICs), performing attacks on Depth Robust Graphs (the best known attacks are [here](https://eprint.iacr.org/2017/443)).
 - *Impractical attempts*: Find special datasets that allow for faster replication, break the sequentiality assumption, generate the proof storing less data, break Pedersen hashes.
