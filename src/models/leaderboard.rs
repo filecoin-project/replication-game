@@ -1,7 +1,7 @@
 use blake2::{Blake2b, Digest};
 use byteorder::{BigEndian, ByteOrder};
 use diesel::{self, prelude::*};
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::models::proof;
 use crate::schema::{leaderboard, params};
@@ -90,6 +90,9 @@ pub struct Params {
     pub degree: i32,
     pub expansion_degree: Option<i32>,
     pub layers: Option<i32>,
+    pub is_tapered: Option<bool>,
+    pub taper_layers: Option<i32>,
+    pub taper: Option<f64>,
 }
 
 impl Params {
@@ -112,8 +115,11 @@ impl Params {
                     challenge_count: val.challenge_count as i32,
                     vde: val.vde as i32,
                     degree: val.degree as i32,
-                    expansion_degree: val.expansion_degree.map(|v| v as i32),
-                    layers: val.layers.map(|v| v as i32),
+                    expansion_degree: val.zigzag.as_ref().map(|v| v.expansion_degree as i32),
+                    layers: val.zigzag.as_ref().map(|v| v.layers as i32),
+                    is_tapered: val.zigzag.as_ref().map(|v| v.is_tapered),
+                    taper_layers: val.zigzag.as_ref().map(|v| v.taper_layers as i32),
+                    taper: val.zigzag.as_ref().map(|v| v.taper),
                 })
                 .execute(conn)?;
         }

@@ -9,7 +9,7 @@ table! {
 
 table! {
     use crate::models::proof::ProofTypeMapping;
-    use diesel::sql_types::{Nullable, BigInt, Integer};
+    use diesel::sql_types::{Nullable, BigInt, Integer, Double, Bool};
 
     params (id) {
         id -> BigInt,
@@ -20,6 +20,9 @@ table! {
         degree -> Integer,
         expansion_degree -> Nullable<Integer>,
         layers -> Nullable<Integer>,
+        is_tapered -> Nullable<Bool>,
+        taper_layers -> Nullable<Integer>,
+        taper -> Nullable<Double>,
     }
 }
 

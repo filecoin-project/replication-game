@@ -9,7 +9,7 @@ use rocket_contrib::json::Json;
 use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
 use storage_proofs::hasher::{Hasher, PedersenHasher};
-use storage_proofs::layered_drgporep::{self, LayerChallenges};
+use storage_proofs::layered_drgporep;
 use storage_proofs::proof::ProofScheme;
 use storage_proofs::zigzag_drgporep::*;
 
@@ -60,28 +60,22 @@ fn validate(res: &proof::Response) -> bool {
 
     match res.proof {
         proof::Proof::Zigzag(ref proof) => {
-            if params.expansion_degree.is_none()
-                || params.layers.is_none()
-                || res.comm_r_star.is_none()
-            {
+            if params.zigzag.is_none() {
                 return false;
             }
 
-            let expansion_degree = params.expansion_degree.expect("missing expansion degree");
-            let layers = params.layers.expect("missing layers");
+            let (expansion_degree, layer_challenges) =
+                params.as_zigzag_params().expect("missing zigzag params");
             let comm_r_star = res.comm_r_star.expect("missing comm r star");
-            let layer_challenges = LayerChallenges::new_fixed(layers, challenge_count);
 
             let sp = layered_drgporep::SetupParams {
-                drg_porep_setup_params: drgporep::SetupParams {
-                    drg: drgporep::DrgParams {
-                        nodes,
-                        degree: m,
-                        expansion_degree,
-                        seed: param_seed,
-                    },
-                    sloth_iter,
+                drg: drgporep::DrgParams {
+                    nodes,
+                    degree: m,
+                    expansion_degree,
+                    seed: param_seed,
                 },
+                sloth_iter,
                 layer_challenges,
             };
 
@@ -105,13 +99,15 @@ fn validate(res: &proof::Response) -> bool {
                     expansion_degree: 0,
                     seed: param_seed,
                 },
+                challenges_count: challenge_count,
+                private: false,
                 sloth_iter,
             };
 
             println!("running setup");
             let pp = DrgPoRep::<PedersenHasher, BucketGraph<PedersenHasher>>::setup(&sp).unwrap();
             let pub_inputs = PublicInputs::<<PedersenHasher as Hasher>::Domain> {
-                replica_id,
+                replica_id: Some(replica_id),
                 challenges: vec![2; challenge_count],
                 tau: Some(res.tau),
             };

@@ -1,7 +1,8 @@
 use diesel_derive_enum::DbEnum;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use storage_proofs::hasher::pedersen::PedersenDomain;
 use storage_proofs::hasher::PedersenHasher;
+use storage_proofs::layered_drgporep::LayerChallenges;
 use storage_proofs::{drgporep, layered_drgporep, porep};
 
 use crate::models::seed::Seed;
@@ -24,10 +25,34 @@ pub struct Params {
     pub challenge_count: usize,
     pub vde: usize,
     pub degree: usize,
-    // only set for zigzag
-    pub expansion_degree: Option<usize>,
-    // only set for zigzag
-    pub layers: Option<usize>,
+    pub zigzag: Option<ZigZagParams>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ZigZagParams {
+    pub expansion_degree: usize,
+    pub layers: usize,
+    pub is_tapered: bool,
+    pub taper_layers: usize,
+    pub taper: f64,
+}
+
+impl Params {
+    pub fn as_zigzag_params(&self) -> Option<(usize, LayerChallenges)> {
+        self.zigzag.as_ref().map(|zigzag| {
+            let layer_challenges = if zigzag.is_tapered {
+                LayerChallenges::new_tapered(
+                    zigzag.layers,
+                    self.challenge_count,
+                    zigzag.taper_layers,
+                    zigzag.taper as f64,
+                )
+            } else {
+                LayerChallenges::new_fixed(zigzag.layers, self.challenge_count)
+            };
+            (zigzag.expansion_degree, layer_challenges)
+        })
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, DbEnum)]

@@ -73,9 +73,18 @@ fn main() {
         seed: value_t!(matches, "seed", String).unwrap(),
     };
 
-    let typ = match matches.subcommand().0 {
-        "drgporep" => proof::ProofType::DrgPoRep,
-        "zigzag" => proof::ProofType::Zigzag,
+    let (typ, zigzag) = match matches.subcommand().0 {
+        "drgporep" => (proof::ProofType::DrgPoRep, None),
+        "zigzag" => (
+            proof::ProofType::Zigzag,
+            Some(proof::ZigZagParams {
+                expansion_degree: value_t!(matches, "expansion-degree", usize).unwrap(),
+                layers: value_t!(matches, "layers", usize).unwrap(),
+                is_tapered: true,
+                taper_layers: 7,
+                taper: 1.0 / 3.0,
+            }),
+        ),
         _ => panic!("invalid subcommand: {}", matches.subcommand().0),
     };
 
@@ -84,9 +93,8 @@ fn main() {
         size: value_t!(matches, "size", usize).unwrap() * 1024,
         degree: value_t!(matches, "degree", usize).unwrap(),
         vde: value_t!(matches, "vde", usize).unwrap(),
-        challenge_count: 2, // TODO: use 200
-        expansion_degree: value_t!(matches, "expansion-degree", usize).ok(),
-        layers: value_t!(matches, "layers", usize).ok(),
+        challenge_count: 8008,
+        zigzag,
     };
 
     let prover = value_t!(matches, "prover", String).unwrap();

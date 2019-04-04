@@ -35,12 +35,13 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let data_size = params.size;
     let m = params.degree;
-    let expansion_degree = params.expansion_degree.unwrap_or_else(|| 6);
-    let sloth_iter = params.vde;
     let challenge_count = params.challenge_count;
+    let sloth_iter = params.vde;
 
-    // TODO: should these be configurable?
-    let layers = params.layers.unwrap_or_else(|| 10);
+    let (expansion_degree, layer_challenges) = params
+        .as_zigzag_params()
+        .unwrap_or_else(|| (6, LayerChallenges::new_fixed(10, challenge_count)));
+
     let partitions = 1;
 
     let mut rng = thread_rng();
@@ -49,19 +50,16 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let nodes = data_size / 32;
     let mut data = file_backed_mmap_from_random_bytes(&mut rng, nodes);
-    let layer_challenges = LayerChallenges::new_fixed(layers, challenge_count);
 
     let sp = layered_drgporep::SetupParams {
-        drg_porep_setup_params: drgporep::SetupParams {
-            drg: drgporep::DrgParams {
-                nodes,
-                degree: m,
-                expansion_degree,
-                // TODO: where should this come from?
-                seed: [0u32; 7],
-            },
-            sloth_iter,
+        drg: drgporep::DrgParams {
+            nodes,
+            degree: m,
+            expansion_degree,
+            // TODO: where should this come from?
+            seed: [0u32; 7],
         },
+        sloth_iter,
         layer_challenges,
     };
 
@@ -148,6 +146,8 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
             // TODO: where should this come from?
             seed: [0u32; 7],
         },
+        challenges_count: challenge_count,
+        private: false,
         sloth_iter,
     };
 
@@ -160,12 +160,15 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
             .unwrap();
 
     let pub_inputs = PublicInputs {
-        replica_id,
+        replica_id: Some(replica_id),
         challenges,
         tau: Some(tau),
     };
 
-    let priv_inputs = PrivateInputs::<PedersenHasher> { aux: &aux };
+    let priv_inputs = PrivateInputs::<PedersenHasher> {
+        tree_d: &aux.tree_d,
+        tree_r: &aux.tree_r,
+    };
 
     eprintln!("sampling proving & verifying");
 
