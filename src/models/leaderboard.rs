@@ -1,7 +1,7 @@
 use blake2::{Blake2b, Digest};
 use byteorder::{BigEndian, ByteOrder};
 use diesel::{self, prelude::*};
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::models::proof;
 use crate::schema::{leaderboard, params};

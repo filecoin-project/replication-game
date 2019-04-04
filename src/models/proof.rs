@@ -1,5 +1,5 @@
 use diesel_derive_enum::DbEnum;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use storage_proofs::hasher::pedersen::PedersenDomain;
 use storage_proofs::hasher::PedersenHasher;
 use storage_proofs::layered_drgporep::LayerChallenges;
