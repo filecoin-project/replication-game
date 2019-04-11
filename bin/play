@@ -60,5 +60,9 @@ prun "target/release/replication-game \
   --size '$SIZE' \
   '$ALGORITHM' >'$PROOFFILE'"
 
+# zip up the proofs file
+prun "rm -f $PROOFFILE.gz"
+prun "gzip --best -v $PROOFFILE"
+
 # post the proof to the replication game server
-prun "curl -X POST -H 'Content-Type: application/json' -d '@$PROOFFILE' '$SERVER/proof'"
+prun "curl -X POST -H 'Content-Type: application/json' -H 'Content-Encoding: gzip' --data-binary '@$PROOFFILE.gz' '$SERVER/proof'"
