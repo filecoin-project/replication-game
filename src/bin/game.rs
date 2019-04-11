@@ -93,7 +93,7 @@ fn main() {
         size: value_t!(matches, "size", usize).unwrap() * 1024,
         degree: value_t!(matches, "degree", usize).unwrap(),
         vde: value_t!(matches, "vde", usize).unwrap(),
-        challenge_count: 8008,
+        challenge_count: 200,
         zigzag,
     };
 
