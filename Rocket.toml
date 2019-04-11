@@ -1,6 +1,8 @@
 [development]
 address = "localhost"
 port = 8000
+# proofs are large, accept up to 1GB size
+limits = { json = 1073741824 }
 
 [development.databases]
 leaderboard = { url = "postgresql://fil@localhost/leaderboard_dev" }

@@ -6,6 +6,7 @@ use blake2::Blake2b;
 use failure::format_err;
 use rocket::post;
 use rocket_contrib::json::Json;
+
 use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
 use storage_proofs::hasher::{Hasher, PedersenHasher};
@@ -15,11 +16,17 @@ use storage_proofs::zigzag_drgporep::*;
 
 use crate::db::DbConn;
 use crate::error::ApiResult;
+use crate::gzip::Gzip;
 use crate::models::leaderboard::upsert_entry_with_params;
 use crate::models::proof;
 use crate::proofs::id_from_str;
 
 #[post("/proof", format = "json", data = "<res>")]
+pub fn proof_gz(conn: DbConn, res: Gzip<Json<proof::Response>>) -> ApiResult<()> {
+    proof(conn, res.into_inner())
+}
+
+#[post("/proof", format = "json", data = "<res>", rank = 2)]
 pub fn proof(conn: DbConn, res: Json<proof::Response>) -> ApiResult<()> {
     // Get replication time
     let repl_time = {
