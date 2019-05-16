@@ -14,7 +14,7 @@ table! {
     params (id) {
         id -> BigInt,
         typ -> ProofTypeMapping,
-        size -> Integer,
+        size -> BigInt,
         challenge_count -> Integer,
         vde -> Integer,
         degree -> Integer,

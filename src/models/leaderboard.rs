@@ -84,7 +84,7 @@ pub struct Params {
     pub id: i64,
 
     pub typ: proof::ProofType,
-    pub size: i32,
+    pub size: i64,
     pub challenge_count: i32,
     pub vde: i32,
     pub degree: i32,
@@ -111,7 +111,7 @@ impl Params {
                 .values(Params {
                     id,
                     typ: val.typ.clone(),
-                    size: val.size as i32,
+                    size: val.size as i64,
                     challenge_count: val.challenge_count as i32,
                     vde: val.vde as i32,
                     degree: val.degree as i32,
