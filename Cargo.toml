@@ -32,22 +32,15 @@ byteorder = "1.2.7"
 memmap = "0.7.0"
 tempfile = "3.0.5"
 flate2 = {version = "1.0.6", default-features = false, features = ["rust_backend"]}
+paired = "0.15"
 
 [dependencies.filecoin-proofs]
 git = "https://github.com/filecoin-project/rust-fil-proofs"
-rev = "b429279195e08ecf3abd9879a3ef6f3b6fb2e21f"
+rev = "adcd06c742c2eb54d7873cabd2dc2f512245fd7d"
 
 [dependencies.storage-proofs]
 git = "https://github.com/filecoin-project/rust-fil-proofs"
-rev = "b429279195e08ecf3abd9879a3ef6f3b6fb2e21f"
-
-[dependencies.sapling-crypto]
-git = "https://github.com/filecoin-project/sapling-crypto"
-branch = "master"
-
-[dependencies.pairing]
-git = "https://github.com/filecoin-project/pairing"
-branch = "master"
+rev = "adcd06c742c2eb54d7873cabd2dc2f512245fd7d"
 
 [dependencies.rocket_contrib]
 version = "0.4"

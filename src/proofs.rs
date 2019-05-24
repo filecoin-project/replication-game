@@ -3,7 +3,7 @@ use std::io::Write;
 
 use memmap::MmapMut;
 use memmap::MmapOptions;
-use pairing::bls12_381::Bls12;
+use paired::bls12_381::Bls12;
 use rand::{thread_rng, Rng};
 
 use storage_proofs::drgporep::{self, *};
