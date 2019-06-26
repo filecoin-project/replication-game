@@ -35,12 +35,10 @@ flate2 = {version = "1.0.6", default-features = false, features = ["rust_backend
 paired = "0.15"
 
 [dependencies.filecoin-proofs]
-git = "https://github.com/filecoin-project/rust-fil-proofs"
-rev = "adcd06c742c2eb54d7873cabd2dc2f512245fd7d"
+version = "0.3"
 
 [dependencies.storage-proofs]
-git = "https://github.com/filecoin-project/rust-fil-proofs"
-rev = "adcd06c742c2eb54d7873cabd2dc2f512245fd7d"
+version = "0.3"
 
 [dependencies.rocket_contrib]
 version = "0.4"
