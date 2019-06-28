@@ -90,6 +90,7 @@ fn validate(res: &proof::Response) -> bool {
 
             let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
                 replica_id,
+                seed: res.challenge_seed,
                 tau: Some(res.tau),
                 comm_r_star,
                 k: Some(0),

@@ -36,9 +36,13 @@ paired = "0.15"
 
 [dependencies.filecoin-proofs]
 version = "0.3"
+git = "https://github.com/filecoin-project/rust-fil-proofs"
+branch = "seeded-porep"
 
 [dependencies.storage-proofs]
 version = "0.3"
+git = "https://github.com/filecoin-project/rust-fil-proofs"
+branch = "seeded-porep"
 
 [dependencies.rocket_contrib]
 version = "0.4"

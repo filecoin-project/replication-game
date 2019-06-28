@@ -73,6 +73,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
         replica_id,
+        seed: params.seed,
         tau: Some(tau.simplify()),
         comm_r_star: tau.comm_r_star,
         k: Some(0),
@@ -101,6 +102,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
     serde_json::to_string(&proof::Response {
         prover,
         seed,
+        challenge_seed: params.seed,
         proof_params: params,
         proof: proof::Proof::Zigzag(pr),
         comm_r_star: Some(tau.comm_r_star),
@@ -180,6 +182,7 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
     serde_json::to_string(&proof::Response {
         prover,
         seed,
+        challenge_seed: None,
         proof_params: params,
         proof: proof::Proof::DrgPoRep(pr),
         comm_r_star: None,

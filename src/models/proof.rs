@@ -16,6 +16,7 @@ pub struct Response {
     pub tau: porep::Tau<PedersenDomain>,
     // only set for zigzag,
     pub comm_r_star: Option<PedersenDomain>,
+    pub challenge_seed: Option<PedersenDomain>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -26,6 +27,7 @@ pub struct Params {
     pub vde: usize,
     pub degree: usize,
     pub zigzag: Option<ZigZagParams>,
+    pub seed: Option<PedersenDomain>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

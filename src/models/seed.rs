@@ -4,4 +4,5 @@ use serde::{Deserialize, Serialize};
 pub struct Seed {
     pub timestamp: i32,
     pub seed: String,
+    pub challenge_seed: String,
 }

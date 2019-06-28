@@ -3,6 +3,14 @@ use clap::{value_t, App, AppSettings, Arg, SubCommand};
 use replication_game::models::proof;
 use replication_game::models::seed::Seed;
 use replication_game::proofs::*;
+use storage_proofs::hasher::pedersen::PedersenDomain;
+use storage_proofs::hasher::Domain;
+
+fn read_seed(seed: &String) -> Option<PedersenDomain> {
+    hex::FromHex::from_hex(seed)
+        .ok()
+        .and_then(|seed_bytes: [u8; 32]| PedersenDomain::try_from_bytes(&seed_bytes[..]).ok())
+}
 
 fn main() {
     let matches = App::new(stringify!("Replication Game CLI"))
@@ -63,6 +71,12 @@ fn main() {
                 .required(true)
                 .takes_value(true),
         )
+        .arg(
+            Arg::with_name("challenge-seed")
+                .long("challenge-seed")
+                .help("Seed fo the challenge, 32 bytes hex encoded")
+                .takes_value(true),
+        )
         .setting(AppSettings::SubcommandRequired)
         .subcommand(SubCommand::with_name("drgporep"))
         .subcommand(SubCommand::with_name("zigzag"))
@@ -71,6 +85,7 @@ fn main() {
     let seed = Seed {
         timestamp: value_t!(matches, "timestamp", i32).unwrap(),
         seed: value_t!(matches, "seed", String).unwrap(),
+        challenge_seed: value_t!(matches, "challenge-seed", String).unwrap(),
     };
 
     let (typ, zigzag) = match matches.subcommand().0 {
@@ -95,6 +110,7 @@ fn main() {
         vde: value_t!(matches, "vde", usize).unwrap(),
         challenge_count: 200,
         zigzag,
+        seed: Some(read_seed(&seed.challenge_seed).expect("invalid seed")),
     };
 
     let prover = value_t!(matches, "prover", String).unwrap();

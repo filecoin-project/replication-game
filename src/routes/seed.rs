@@ -3,6 +3,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use blake2::crypto_mac::Mac;
 use blake2::Blake2b;
+use rand::Rng;
 use rocket::get;
 use rocket_contrib::json::Json;
 
@@ -26,9 +27,12 @@ pub fn seed() -> ApiResult<Json<Seed>> {
     hasher.input(format!("{}", ts).as_bytes());
     let result = hasher.result();
     let code_bytes = result.code().to_vec();
+    let mut challenge_seed = [0u8; 32];
+    rand::thread_rng().fill_bytes(&mut challenge_seed);
 
     Ok(Json(Seed {
         timestamp: ts,
         seed: hex::encode(&code_bytes),
+        challenge_seed: hex::encode(&challenge_seed),
     }))
 }

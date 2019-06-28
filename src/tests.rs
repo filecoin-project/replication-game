@@ -3,6 +3,7 @@ use parking_lot::Mutex;
 use rand::{thread_rng, Rng};
 use rocket::http::{ContentType, Status};
 use rocket::local::Client;
+use storage_proofs::hasher::pedersen::PedersenDomain;
 
 use crate::models::leaderboard::{Entry, PrintableEntry};
 use crate::models::proof;
@@ -63,6 +64,7 @@ fn test_insertion() {
             vde: 1,
             degree: 3,
             zigzag: None,
+            seed: None,
         };
 
         let proof_value = proofs::porep_work(id.clone(), params, seed.clone());
@@ -114,6 +116,7 @@ fn test_many_insertions() {
             assert_eq!(response.status(), Status::Ok);
             let body = response.body_string().unwrap();
             let seed: Seed = serde_json::from_str(&body).unwrap();
+            let challenge_seed: PedersenDomain = rng.gen();
 
             let id: String = rng.gen_ascii_chars().take(12).collect();
 
@@ -124,6 +127,7 @@ fn test_many_insertions() {
                 vde: 1,
                 degree: 3,
                 zigzag: None,
+                seed: None,
             };
             let params2 = proof::Params {
                 typ: proof::ProofType::DrgPoRep,
@@ -132,6 +136,7 @@ fn test_many_insertions() {
                 vde: 1,
                 degree: 3,
                 zigzag: None,
+                seed: None,
             };
 
             let params3 = proof::Params {
@@ -147,6 +152,7 @@ fn test_many_insertions() {
                     taper_layers: 2,
                     taper: 1.2,
                 }),
+                seed: Some(challenge_seed.clone()),
             };
 
             let proof_value1 = proofs::porep_work(id.clone(), params1.clone(), seed.clone());
