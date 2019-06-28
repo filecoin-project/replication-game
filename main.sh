@@ -2,7 +2,7 @@
 
 echo "building"
 
-cargo build --release --bin replication-game
+cargo build --release --bin replication-game --no-default-features
 
 echo "getting seed"
 
