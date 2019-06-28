@@ -1,12 +1,8 @@
-# Dockerfile for CircleCI
-# build with
-# `docker build -t filecoin/rust:latest -f ./Dockerfile-ci .`
+# build with: docker build --tag replication-game .
+# run with:   docker run -it -v `pwd`:/code/ replication-game
 
 FROM debian:stretch
 
-# Some of the dependencies I need to build a few libraries,
-# personalize to your needs. You can use multi-stage builds
-# to produce a lightweight image.
 RUN apt-get update && \
     apt-get install -y curl file gcc g++ git make openssh-client \
     autoconf automake cmake libtool libcurl4-openssl-dev libssl-dev \
@@ -24,5 +20,4 @@ RUN bash -l -c 'echo /usr/local/lib >> /etc/ld.so.conf'
 RUN ldconfig
 
 WORKDIR /code
-
 CMD ["/code/main.sh"]
