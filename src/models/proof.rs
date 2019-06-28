@@ -1,3 +1,4 @@
+#[cfg(feature = "postgres")]
 use diesel_derive_enum::DbEnum;
 use serde::{Deserialize, Serialize};
 use storage_proofs::hasher::pedersen::PedersenDomain;
@@ -57,10 +58,11 @@ impl Params {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, DbEnum)]
+#[cfg_attr(feature = "postgres", derive(DbEnum))]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ProofType {
     Zigzag,
-    #[db_rename = "drgporep"]
+    #[cfg_attr(feature = "postgres", db_rename = "drgporep")]
     DrgPoRep,
 }
 
