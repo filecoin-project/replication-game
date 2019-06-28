@@ -23,7 +23,6 @@ RUN bash -l -c 'echo $(rustc --print sysroot)/lib >> /etc/ld.so.conf'
 RUN bash -l -c 'echo /usr/local/lib >> /etc/ld.so.conf'
 RUN ldconfig
 
-WORKDIR /root
-COPY . .
+WORKDIR /code
 
-CMD ["./main.sh"]
+CMD ["/code/main.sh"]
