@@ -47,7 +47,7 @@ branch = "seeded-porep"
 [dependencies.rocket_contrib]
 version = "0.4"
 default-features = false
-features = ["diesel_postgres_pool", "json", "serve"]
+features = ["json", "serve"]
 
 [dev-dependencies]
 parking_lot = "0.7.1"
@@ -55,4 +55,4 @@ lazy_static = "1.2.0"
 
 [features]
 default = ["postgres"]
-postgres = ["diesel/postgres", "diesel-derive-enum/postgres", "diesel_migrations"]
+postgres = ["diesel/postgres", "diesel-derive-enum/postgres", "diesel_migrations", "rocket_contrib/diesel_postgres_pool"]
