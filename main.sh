@@ -16,7 +16,7 @@ REPL_GAME_CHALLENGE="12121212121212121212121212121212121212121212121212121212121
 REPL_GAME_TIMESTAMP=$(cat seed.json| jq -r '.timestamp')
 SIZE=10
 
-time -v ./target/release/replication-game \
+time ./target/release/replication-game \
 	--prover $REPL_GAME_ID \
 	--seed $REPL_GAME_SEED \
 	--timestamp $REPL_GAME_TIMESTAMP \
