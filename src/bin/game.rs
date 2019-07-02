@@ -26,7 +26,7 @@ fn main() {
             Arg::with_name("degree")
                 .help("The degree")
                 .long("degree")
-                .default_value("6")
+                .default_value("5")
                 .takes_value(true),
         )
         .arg(
@@ -40,7 +40,7 @@ fn main() {
             Arg::with_name("expansion-degree")
                 .help("The expansion degree for Zigzag")
                 .long("expansion-degree")
-                .default_value("6")
+                .default_value("8")
                 .takes_value(true),
         )
         .arg(

@@ -31,6 +31,7 @@ fn file_backed_mmap_from_random_bytes(rng: &mut impl Rng, n: usize) -> MmapMut {
 }
 
 pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String {
+    eprintln!("{:?}", &params);
     let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&seed.seed);
 
     let data_size = params.size;
@@ -71,6 +72,8 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
     let (tau, aux) =
         ZigZagDrgPoRep::<PedersenHasher>::replicate(&pp, &replica_id, &mut data, None).unwrap();
 
+    eprintln!("generating one proof, {:?}", std::time::SystemTime::now());
+
     let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
         replica_id,
         seed: params.seed,
@@ -83,8 +86,6 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         aux,
         tau: tau.layer_taus.clone(),
     };
-
-    eprintln!("generating one proof, {:?}", std::time::SystemTime::now());
 
     let pr = ZigZagDrgPoRep::<PedersenHasher>::prove_all_partitions(
         &pp,
