@@ -46,7 +46,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let mut rng = thread_rng();
 
-    eprintln!("generating fake data");
+    eprintln!("generating fake data, {:?}", std::time::SystemTime::now());
 
     let nodes = data_size / 32;
     let mut data = file_backed_mmap_from_random_bytes(&mut rng, nodes);
@@ -63,10 +63,10 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         layer_challenges,
     };
 
-    eprintln!("running setup");
+    eprintln!("running setup, {:?}", std::time::SystemTime::now());
     let pp = ZigZagDrgPoRep::<PedersenHasher>::setup(&sp).unwrap();
 
-    eprintln!("running replicate");
+    eprintln!("running replicate, {:?}", std::time::SystemTime::now());
 
     let (tau, aux) =
         ZigZagDrgPoRep::<PedersenHasher>::replicate(&pp, &replica_id, &mut data, None).unwrap();
@@ -84,7 +84,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         tau: tau.layer_taus.clone(),
     };
 
-    eprintln!("generating one proof");
+    eprintln!("generating one proof, {:?}", std::time::SystemTime::now());
 
     let pr = ZigZagDrgPoRep::<PedersenHasher>::prove_all_partitions(
         &pp,
@@ -94,11 +94,13 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
     )
     .expect("failed to prove");
 
+    eprintln!("verifying proof, {:?}", std::time::SystemTime::now());
     let verified = ZigZagDrgPoRep::<PedersenHasher>::verify_all_partitions(&pp, &pub_inputs, &pr)
         .expect("failed to verify");
 
     assert!(verified, "verification failed");
 
+    eprintln!("verfication done, {:?}", std::time::SystemTime::now());
     serde_json::to_string(&proof::Response {
         prover,
         seed,
