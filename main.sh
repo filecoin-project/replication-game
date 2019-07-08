@@ -2,10 +2,7 @@
 
 echo "building"
 
-cargo build --release --bin replication-game --no-default-features
-
-echo "benchmarking disk"
-dd if=/dev/zero of=/tmp/test.img bs=256M count=1 conv=fdatasync
+RUSTFLAGS="-C codegen-units=1 -C target-cpu=native" cargo build --release --bin replication-game --no-default-features
 
 echo "getting seed"
 
@@ -18,8 +15,9 @@ REPL_GAME_SEED=$(cat seed.json| jq -r '.seed')
 REPL_GAME_CHALLENGE="1212121212121212121212121212121212121212121212121212121212121212"
 REPL_GAME_TIMESTAMP=$(cat seed.json| jq -r '.timestamp')
 SIZE=1048576
+# SIZE=10240
 
-export RUST_BACKTRACE=1
+# export RUST_BACKTRACE=1
 export FIL_PROOFS_MAXIMIZE_CACHING=1
 
 time ./target/release/replication-game \
