@@ -25,4 +25,8 @@ time ./target/release/replication-game \
 	--timestamp $REPL_GAME_TIMESTAMP \
         --challenge-seed $REPL_GAME_CHALLENGE \
 	--size $SIZE \
+        --vde 0\
+        --expansion-degree 8\
+        --layers 10\
+        --degree = 5\
 	zigzag > proof.json

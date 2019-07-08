@@ -38,12 +38,12 @@ diesel-derive-enum = { version = "0.4.4", optional = true }
 [dependencies.filecoin-proofs]
 version = "0.3"
 git = "https://github.com/filecoin-project/rust-fil-proofs"
-branch = "seeded-porep"
+branch = "master"
 
 [dependencies.storage-proofs]
 version = "0.3"
 git = "https://github.com/filecoin-project/rust-fil-proofs"
-branch = "seeded-porep"
+branch = "master"
 
 [dependencies.rocket_contrib]
 version = "0.4"
