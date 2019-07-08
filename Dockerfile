@@ -9,7 +9,7 @@ RUN apt-get update && \
     libelf-dev libdw-dev binutils-dev zlib1g-dev libiberty-dev wget \
     xz-utils pkg-config python clang jq
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly-2019-05-19
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain `cat rust-toolchain`
 
 ENV PATH "$PATH:/root/.cargo/bin"
 ENV RUSTFLAGS "-C link-dead-code"
