@@ -4,6 +4,9 @@ echo "building"
 
 cargo build --release --bin replication-game --no-default-features
 
+echo "benchmarking disk"
+dd if=/dev/zero of=/tmp/test.img bs=256M count=1 conv=fdatasync
+
 echo "getting seed"
 
 curl https://replication-game.herokuapp.com/api/seed > seed.json
