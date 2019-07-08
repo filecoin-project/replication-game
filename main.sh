@@ -28,5 +28,5 @@ time ./target/release/replication-game \
         --vde 0\
         --expansion-degree 8\
         --layers 10\
-        --degree = 5\
+        --degree 5\
 	zigzag > proof.json
