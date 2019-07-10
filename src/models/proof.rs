@@ -11,13 +11,13 @@ use crate::models::seed::Seed;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Response {
     pub prover: String,
-    pub seed: Seed,
+    pub seed_start: Seed,
+    pub seed_challenge: Seed,
     pub proof_params: Params,
     pub proof: Proof,
     pub tau: porep::Tau<PedersenDomain>,
     // only set for zigzag,
     pub comm_r_star: Option<PedersenDomain>,
-    pub challenge_seed: Option<PedersenDomain>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -70,4 +70,13 @@ pub enum ProofType {
 pub enum Proof {
     Zigzag(Vec<layered_drgporep::Proof<PedersenHasher>>),
     DrgPoRep(drgporep::Proof<PedersenHasher>),
+}
+
+impl Proof {
+    pub fn get_replica_root(&self) -> &PedersenDomain {
+        match self {
+            Proof::Zigzag(ref proof) => &proof[0].tau[proof[0].tau.len() - 1].comm_r,
+            Proof::DrgPoRep(ref proof) => &proof.replica_root,
+        }
+    }
 }

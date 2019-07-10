@@ -19,6 +19,7 @@ use crate::error::ApiResult;
 use crate::gzip::Gzip;
 use crate::models::leaderboard::upsert_entry_with_params;
 use crate::models::proof;
+use crate::models::seed::Seed;
 use crate::proofs::id_from_str;
 
 #[post("/proof", format = "json", data = "<res>")]
@@ -36,18 +37,22 @@ pub fn proof(conn: DbConn, res: Json<proof::Response>) -> ApiResult<()> {
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards");
         let completion_time = timestamp.as_secs();
-        (completion_time - res.seed.timestamp as u64) as i32
+        (completion_time - res.seed_start.timestamp as u64) as i32
     };
 
-    // Verify authenticity of seed
-    let mac = hex::decode(&res.seed.seed)?;
     let key = env::var("GAME_KEY").unwrap_or_else(|_| "my cool key".into());
-    let mut hasher = Blake2b::new_varkey(key.as_bytes())?;
-    hasher.input(&format!("{}", res.seed.timestamp).as_bytes());
-    hasher.verify(&mac)?;
+    validate_seed(key.as_bytes(), &res.seed_start)?;
+    validate_seed(key.as_bytes(), &res.seed_challenge)?;
 
     if !validate(&res) {
         return Err(format_err!("Submitted proofs are invalid").into());
+    }
+
+    // check that the challenge data is the root in the proof.
+    let expected_root = res.proof.get_replica_root();
+    let root = &res.seed_challenge.data;
+    if root != expected_root {
+        return Err(format_err!("Invalid seed challenge replica").into());
     }
 
     upsert_entry_with_params(&res, repl_time, &conn)?;
@@ -55,8 +60,19 @@ pub fn proof(conn: DbConn, res: Json<proof::Response>) -> ApiResult<()> {
     Ok(())
 }
 
+fn validate_seed(key: &[u8], seed: &Seed) -> ApiResult<()> {
+    let mac = hex::decode(&seed.mac)?;
+
+    let mut hasher = Blake2b::new_varkey(key)?;
+    hasher.input(&format!("{}", seed.timestamp).as_bytes());
+    hasher.input(seed.data.as_ref());
+    hasher.verify(&mac)?;
+
+    Ok(())
+}
+
 fn validate(res: &proof::Response) -> bool {
-    let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&res.seed.seed);
+    let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&res.seed_start.mac);
     let params = &res.proof_params;
     let data_size = params.size;
     let m = params.degree;
@@ -64,6 +80,8 @@ fn validate(res: &proof::Response) -> bool {
     let challenge_count = params.challenge_count;
     let nodes = data_size / 32;
     let param_seed = [0u32; 7];
+
+    let challenge_seed = crate::proofs::derive_seed_fr(&res.seed_challenge);
 
     match res.proof {
         proof::Proof::Zigzag(ref proof) => {
@@ -90,14 +108,15 @@ fn validate(res: &proof::Response) -> bool {
 
             let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
                 replica_id,
-                seed: res.challenge_seed,
                 tau: Some(res.tau),
                 comm_r_star,
                 k: Some(0),
+                seed: Some(challenge_seed.into()),
             };
 
+            println!("inputs: {:?}", &pub_inputs);
             ZigZagDrgPoRep::<PedersenHasher>::verify_all_partitions(&pp, &pub_inputs, proof)
-                .unwrap_or_else(|_| false)
+                .unwrap_or_default()
         }
         proof::Proof::DrgPoRep(ref proof) => {
             let sp = SetupParams {

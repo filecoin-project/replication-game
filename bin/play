@@ -34,30 +34,22 @@ else die "wrong number of arguments: $#"
 fi
 
 require curl
-require jq
 
 # the URL of the replication game server
-SERVER=https://replication-game.herokuapp.com/api
+# SERVER=https://replication-game.herokuapp.com/api
+SERVER=http://localhost:8000/api
 
 # local temporary files
-SEEDFILE=seed.json
 PROOFFILE=proof.json
 
 # print out commands from here.
-
-# get the seed and timestamp
-# echo "getting the challenge seed"
-prun "curl -s $SERVER/seed >$SEEDFILE"
-SEED=$(cat seed.json | jq -r '.seed')
-TIMESTAMP=$(cat seed.json | jq -r '.timestamp')
 
 # generate the proof and save it to a local file
 # echo "invoking replication-game with params"
 prun "target/release/replication-game \
   --prover '$NAME' \
-  --seed '$SEED' \
-  --timestamp '$TIMESTAMP' \
   --size '$SIZE' \
+  --url '$SERVER' \
   '$ALGORITHM' >'$PROOFFILE'"
 
 # zip up the proofs file
