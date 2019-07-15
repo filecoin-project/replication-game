@@ -9,7 +9,7 @@ use rocket_contrib::json::Json;
 
 use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
-use storage_proofs::hasher::{Hasher, PedersenHasher};
+use storage_proofs::hasher::{Blake2sHasher, Hasher, PedersenHasher};
 use storage_proofs::layered_drgporep;
 use storage_proofs::proof::ProofScheme;
 use storage_proofs::zigzag_drgporep::*;
@@ -72,7 +72,7 @@ fn validate_seed(key: &[u8], seed: &Seed) -> ApiResult<()> {
 }
 
 fn validate(res: &proof::Response) -> bool {
-    let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&res.seed_start.mac);
+    let replica_id = id_from_str::<<Blake2sHasher as Hasher>::Domain>(&res.seed_start.mac);
     let params = &res.proof_params;
     let data_size = params.size;
     let m = params.degree;
@@ -104,9 +104,9 @@ fn validate(res: &proof::Response) -> bool {
                 layer_challenges,
             };
 
-            let pp = ZigZagDrgPoRep::<PedersenHasher>::setup(&sp).unwrap();
+            let pp = ZigZagDrgPoRep::<Blake2sHasher>::setup(&sp).unwrap();
 
-            let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
+            let pub_inputs = layered_drgporep::PublicInputs::<<Blake2sHasher as Hasher>::Domain> {
                 replica_id,
                 tau: Some(res.tau),
                 comm_r_star,
@@ -115,7 +115,7 @@ fn validate(res: &proof::Response) -> bool {
             };
 
             println!("inputs: {:?}", &pub_inputs);
-            ZigZagDrgPoRep::<PedersenHasher>::verify_all_partitions(&pp, &pub_inputs, proof)
+            ZigZagDrgPoRep::<Blake2sHasher>::verify_all_partitions(&pp, &pub_inputs, proof)
                 .unwrap_or_default()
         }
         proof::Proof::DrgPoRep(ref proof) => {
@@ -132,14 +132,14 @@ fn validate(res: &proof::Response) -> bool {
             };
 
             println!("running setup");
-            let pp = DrgPoRep::<PedersenHasher, BucketGraph<PedersenHasher>>::setup(&sp).unwrap();
-            let pub_inputs = PublicInputs::<<PedersenHasher as Hasher>::Domain> {
+            let pp = DrgPoRep::<Blake2sHasher, BucketGraph<Blake2sHasher>>::setup(&sp).unwrap();
+            let pub_inputs = PublicInputs::<<Blake2sHasher as Hasher>::Domain> {
                 replica_id: Some(replica_id),
                 challenges: vec![2; challenge_count],
                 tau: Some(res.tau),
             };
 
-            DrgPoRep::<PedersenHasher, _>::verify(&pp, &pub_inputs, proof).unwrap_or_else(|_| false)
+            DrgPoRep::<Blake2sHasher, _>::verify(&pp, &pub_inputs, proof).unwrap_or_else(|_| false)
         }
     }
 }

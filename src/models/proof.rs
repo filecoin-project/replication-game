@@ -1,7 +1,9 @@
 #[cfg(feature = "postgres")]
 use diesel_derive_enum::DbEnum;
 use serde::{Deserialize, Serialize};
+use storage_proofs::hasher::blake2s::Blake2sDomain;
 use storage_proofs::hasher::pedersen::PedersenDomain;
+use storage_proofs::hasher::Blake2sHasher;
 use storage_proofs::hasher::PedersenHasher;
 use storage_proofs::layered_drgporep::LayerChallenges;
 use storage_proofs::{drgporep, layered_drgporep, porep};
@@ -15,9 +17,9 @@ pub struct Response {
     pub seed_challenge: Seed,
     pub proof_params: Params,
     pub proof: Proof,
-    pub tau: porep::Tau<PedersenDomain>,
+    pub tau: porep::Tau<Blake2sDomain>,
     // only set for zigzag,
-    pub comm_r_star: Option<PedersenDomain>,
+    pub comm_r_star: Option<Blake2sDomain>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -28,7 +30,7 @@ pub struct Params {
     pub vde: usize,
     pub degree: usize,
     pub zigzag: Option<ZigZagParams>,
-    pub seed: Option<PedersenDomain>,
+    pub seed: Option<Blake2sDomain>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -68,12 +70,12 @@ pub enum ProofType {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Proof {
-    Zigzag(Vec<layered_drgporep::Proof<PedersenHasher>>),
-    DrgPoRep(drgporep::Proof<PedersenHasher>),
+    Zigzag(Vec<layered_drgporep::Proof<Blake2sHasher>>),
+    DrgPoRep(drgporep::Proof<Blake2sHasher>),
 }
 
 impl Proof {
-    pub fn get_replica_root(&self) -> &PedersenDomain {
+    pub fn get_replica_root(&self) -> &Blake2sDomain {
         match self {
             Proof::Zigzag(ref proof) => &proof[0].tau[proof[0].tau.len() - 1].comm_r,
             Proof::DrgPoRep(ref proof) => &proof.replica_root,
