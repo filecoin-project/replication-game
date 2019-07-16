@@ -2,32 +2,43 @@
 
 #[macro_use]
 extern crate diesel;
+#[cfg(feature = "postgres")]
 #[macro_use]
 extern crate diesel_migrations;
 
 pub mod models;
 pub mod proofs;
 
+#[cfg(feature = "postgres")]
 mod db;
 mod error;
+#[cfg(feature = "postgres")]
 mod gzip;
+#[cfg(feature = "postgres")]
 mod routes;
+#[cfg(feature = "postgres")]
 mod schema;
 
 #[cfg(test)]
 mod tests;
 
+#[cfg(feature = "postgres")]
 use rocket::fairing::AdHoc;
+#[cfg(feature = "postgres")]
 use rocket::{catchers, routes, Rocket};
+#[cfg(feature = "postgres")]
 use rocket_contrib::serve::StaticFiles;
 
+#[cfg(feature = "postgres")]
 use crate::db::DbConn;
 
 // This macro from `diesel_migrations` defines an `embedded_migrations` module
 // containing a function named `run`. This allows the example to be run and
 // tested without any outside setup of the database.
+#[cfg(feature = "postgres")]
 embed_migrations!();
 
+#[cfg(feature = "postgres")]
 pub fn rocket() -> (Rocket, Option<DbConn>) {
     let rocket = rocket::ignite()
         .attach(DbConn::fairing())

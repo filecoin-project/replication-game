@@ -78,21 +78,11 @@ Set your player name:
 export REPL_GAME_ID="ReadyPlayerOne"
 ```
 
-Get the seed from our server:
-
-```bash
-curl https://replication-game.herokuapp.com/api/seed > seed.json
-export REPL_GAME_SEED=$(cat seed.json| jq -r '.seed')
-export REPL_GAME_TIMESTAMP=$(cat seed.json| jq -r '.timestamp')
-```
-
 Play the game:
 
 ```bash
 ./target/release/replication-game \
 	--prover $REPL_GAME_ID \
-	--seed $REPL_GAME_SEED \
-	--timestamp $REPL_GAME_TIMESTAMP \
 	--size 10240 \
 	zigzag > proof.json
 ```
@@ -162,10 +152,11 @@ This server requires Postgresql to work. The details of the expected configurati
 
 ### API
 
-- GET `/api/seed`:
-  - Returns a `timestamp` (unix time) and a `seed` to be used as `replica_id` in the proof of replication
+- POST `/api/seed`:
+  - Inputs: `data`
+  - Returns a `timestamp` (unix time) and a `seed`
 - POST `/api/proof`
-  - Inputs: `timestamp`, `seed`, `prover_id` and `proof`
+  - Inputs: `timestamp`, `seed`, `seed_challenge`, `prover_id` and `proof`
   - Checks authenticity of the seed (using the timestamp and a secret on the server)
   - Checks that the `proof` is correct
   - Computes `replication_time = timestamp - current_time`

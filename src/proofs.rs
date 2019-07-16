@@ -1,15 +1,20 @@
 use std::fs::File;
 use std::io::Write;
 
+use byteorder::{BigEndian, ByteOrder};
+use ff::PrimeField;
 use memmap::MmapMut;
 use memmap::MmapOptions;
 use paired::bls12_381::Bls12;
+use paired::bls12_381::Fr;
 use rand::{thread_rng, Rng};
 
 use storage_proofs::drgporep::{self, *};
 use storage_proofs::drgraph::*;
 use storage_proofs::fr32::fr_into_bytes;
-use storage_proofs::hasher::{Domain, Hasher, PedersenHasher};
+use storage_proofs::hasher::blake2s::Blake2sDomain;
+use storage_proofs::hasher::pedersen::PedersenDomain;
+use storage_proofs::hasher::{Blake2sHasher, Domain, Hasher, PedersenHasher};
 use storage_proofs::layered_drgporep::{self, LayerChallenges};
 use storage_proofs::porep::PoRep;
 use storage_proofs::proof::ProofScheme;
@@ -30,8 +35,13 @@ fn file_backed_mmap_from_random_bytes(rng: &mut impl Rng, n: usize) -> MmapMut {
     unsafe { MmapOptions::new().map_mut(&tmpfile).unwrap() }
 }
 
-pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String {
-    let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&seed.seed);
+pub fn zigzag_work<F>(prover: String, params: proof::Params, get_seed: F) -> String
+where
+    F: Fn(Blake2sDomain) -> Seed,
+{
+    eprintln!("{:?}", &params);
+    let seed = get_seed(Default::default());
+    let replica_id = id_from_str::<<Blake2sHasher as Hasher>::Domain>(&seed.mac);
 
     let data_size = params.size;
     let m = params.degree;
@@ -46,7 +56,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
 
     let mut rng = thread_rng();
 
-    eprintln!("generating fake data");
+    eprintln!("generating fake data, {:?}", std::time::SystemTime::now());
 
     let nodes = data_size / 32;
     let mut data = file_backed_mmap_from_random_bytes(&mut rng, nodes);
@@ -63,16 +73,22 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         layer_challenges,
     };
 
-    eprintln!("running setup");
-    let pp = ZigZagDrgPoRep::<PedersenHasher>::setup(&sp).unwrap();
+    eprintln!("running setup, {:?}", std::time::SystemTime::now());
+    let pp = ZigZagDrgPoRep::<Blake2sHasher>::setup(&sp).unwrap();
 
-    eprintln!("running replicate");
+    eprintln!("running replicate, {:?}", std::time::SystemTime::now());
 
     let (tau, aux) =
-        ZigZagDrgPoRep::<PedersenHasher>::replicate(&pp, &replica_id, &mut data, None).unwrap();
+        ZigZagDrgPoRep::<Blake2sHasher>::replicate(&pp, &replica_id, &mut data, None).unwrap();
 
-    let pub_inputs = layered_drgporep::PublicInputs::<<PedersenHasher as Hasher>::Domain> {
+    eprintln!("generating one proof, {:?}", std::time::SystemTime::now());
+
+    let seed_challenge = get_seed(tau.layer_taus[tau.layer_taus.len() - 1].comm_r);
+    let seed_fr = derive_seed_fr(&seed_challenge);
+
+    let pub_inputs = layered_drgporep::PublicInputs::<<Blake2sHasher as Hasher>::Domain> {
         replica_id,
+        seed: Some(seed_fr.into()),
         tau: Some(tau.simplify()),
         comm_r_star: tau.comm_r_star,
         k: Some(0),
@@ -83,9 +99,7 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
         tau: tau.layer_taus.clone(),
     };
 
-    eprintln!("generating one proof");
-
-    let pr = ZigZagDrgPoRep::<PedersenHasher>::prove_all_partitions(
+    let pr = ZigZagDrgPoRep::<Blake2sHasher>::prove_all_partitions(
         &pp,
         &pub_inputs,
         &priv_inputs,
@@ -93,14 +107,18 @@ pub fn zigzag_work(prover: String, params: proof::Params, seed: Seed) -> String 
     )
     .expect("failed to prove");
 
-    let verified = ZigZagDrgPoRep::<PedersenHasher>::verify_all_partitions(&pp, &pub_inputs, &pr)
+    eprintln!("verifying proof, {:?}", std::time::SystemTime::now());
+    eprintln!("inputs: {:?}", &pub_inputs);
+    let verified = ZigZagDrgPoRep::<Blake2sHasher>::verify_all_partitions(&pp, &pub_inputs, &pr)
         .expect("failed to verify");
 
     assert!(verified, "verification failed");
 
+    eprintln!("verfication done, {:?}", std::time::SystemTime::now());
     serde_json::to_string(&proof::Response {
         prover,
-        seed,
+        seed_start: seed,
+        seed_challenge,
         proof_params: params,
         proof: proof::Proof::Zigzag(pr),
         comm_r_star: Some(tau.comm_r_star),
@@ -117,8 +135,12 @@ pub fn id_from_str<T: Domain>(raw: &str) -> T {
     T::try_from_bytes(&replica_id_bytes).expect("invalid replica id")
 }
 
-pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
-    let replica_id = id_from_str::<<PedersenHasher as Hasher>::Domain>(&seed.seed);
+pub fn porep_work<F>(prover: String, params: proof::Params, get_seed: F) -> String
+where
+    F: Fn(Blake2sDomain) -> Seed,
+{
+    let seed = get_seed(Default::default());
+    let replica_id = id_from_str::<<Blake2sHasher as Hasher>::Domain>(&seed.mac);
 
     let data_size = params.size;
     let m = params.degree;
@@ -152,11 +174,11 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
     };
 
     eprintln!("running setup");
-    let pp = DrgPoRep::<PedersenHasher, BucketGraph<PedersenHasher>>::setup(&sp).unwrap();
+    let pp = DrgPoRep::<Blake2sHasher, BucketGraph<Blake2sHasher>>::setup(&sp).unwrap();
 
     eprintln!("running replicate");
     let (tau, aux) =
-        DrgPoRep::<PedersenHasher, _>::replicate(&pp, &replica_id, data.as_mut_slice(), None)
+        DrgPoRep::<Blake2sHasher, _>::replicate(&pp, &replica_id, data.as_mut_slice(), None)
             .unwrap();
 
     let pub_inputs = PublicInputs {
@@ -165,25 +187,38 @@ pub fn porep_work(prover: String, params: proof::Params, seed: Seed) -> String {
         tau: Some(tau),
     };
 
-    let priv_inputs = PrivateInputs::<PedersenHasher> {
+    let priv_inputs = PrivateInputs::<Blake2sHasher> {
         tree_d: &aux.tree_d,
         tree_r: &aux.tree_r,
     };
 
     eprintln!("sampling proving & verifying");
 
-    let pr = DrgPoRep::<PedersenHasher, _>::prove(&pp, &pub_inputs, &priv_inputs)
+    let challenge_seed = get_seed(tau.comm_r);
+
+    let pr = DrgPoRep::<Blake2sHasher, _>::prove(&pp, &pub_inputs, &priv_inputs)
         .expect("failed to prove");
 
-    DrgPoRep::<PedersenHasher, _>::verify(&pp, &pub_inputs, &pr).expect("failed to verify");
+    DrgPoRep::<Blake2sHasher, _>::verify(&pp, &pub_inputs, &pr).expect("failed to verify");
 
     serde_json::to_string(&proof::Response {
         prover,
-        seed,
+        seed_start: seed.clone(),
+        seed_challenge: challenge_seed,
         proof_params: params,
         proof: proof::Proof::DrgPoRep(pr),
         comm_r_star: None,
         tau,
     })
     .expect("failed to serialize")
+}
+
+pub fn derive_seed_fr(seed: &Seed) -> Fr {
+    let mac = hex::decode(&seed.mac).expect("invalid mac");
+
+    // turn the mac into a u64
+    let code_num = BigEndian::read_u64(&mac);
+
+    // turn the u64 into an Fr
+    Fr::from_repr(code_num.into()).unwrap()
 }

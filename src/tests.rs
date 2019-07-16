@@ -6,7 +6,7 @@ use rocket::local::Client;
 
 use crate::models::leaderboard::{Entry, PrintableEntry};
 use crate::models::proof;
-use crate::models::seed::Seed;
+use crate::models::seed::SeedInput;
 use crate::proofs;
 
 // We use a lock to synchronize between tests so DB operations don't collide.
@@ -43,15 +43,19 @@ fn test_cache_headers() {
 #[test]
 fn test_insertion() {
     run_test!(|client, conn| {
+        let get_seed = |data| {
+            let mut response = client
+                .post("/api/seed")
+                .header(ContentType::JSON)
+                .body(serde_json::to_string(&SeedInput { data }).unwrap())
+                .dispatch();
+            assert_eq!(response.status(), Status::Ok);
+            let body = response.body_string().unwrap();
+            serde_json::from_str(&body).unwrap()
+        };
+
         // Get the tasks before making changes.
         let init_leaderboard = Entry::all(&conn).unwrap();
-        // Get a seed
-        let mut response = client.get("/api/seed").dispatch();
-        assert_eq!(response.status(), Status::Ok);
-        let body = response.body_string().unwrap();
-        println!("response: {}", &body);
-
-        let seed: Seed = serde_json::from_str(&body).unwrap();
 
         let mut rng = thread_rng();
         let id: String = rng.gen_ascii_chars().take(12).collect();
@@ -63,9 +67,10 @@ fn test_insertion() {
             vde: 1,
             degree: 3,
             zigzag: None,
+            seed: None,
         };
 
-        let proof_value = proofs::porep_work(id.clone(), params, seed.clone());
+        let proof_value = proofs::porep_work(id.clone(), params, get_seed);
 
         // Issue a request to insert a result
         let response = client
@@ -102,6 +107,16 @@ fn test_insertion() {
 fn test_many_insertions() {
     run_test!(|client, conn| {
         let mut rng = thread_rng();
+        let get_seed = |data| {
+            let mut response = client
+                .post("/api/seed")
+                .header(ContentType::JSON)
+                .body(serde_json::to_string(&SeedInput { data }).unwrap())
+                .dispatch();
+            assert_eq!(response.status(), Status::Ok);
+            let body = response.body_string().unwrap();
+            serde_json::from_str(&body).unwrap()
+        };
 
         // Get the tasks before making changes.
         let init_leaderboard = Entry::all(&conn).unwrap();
@@ -109,12 +124,6 @@ fn test_many_insertions() {
         let mut prev_len = init_leaderboard.len();
 
         for _ in 0..2 {
-            // Get a seed
-            let mut response = client.get("/api/seed").dispatch();
-            assert_eq!(response.status(), Status::Ok);
-            let body = response.body_string().unwrap();
-            let seed: Seed = serde_json::from_str(&body).unwrap();
-
             let id: String = rng.gen_ascii_chars().take(12).collect();
 
             let params1 = proof::Params {
@@ -124,6 +133,7 @@ fn test_many_insertions() {
                 vde: 1,
                 degree: 3,
                 zigzag: None,
+                seed: None,
             };
             let params2 = proof::Params {
                 typ: proof::ProofType::DrgPoRep,
@@ -132,6 +142,7 @@ fn test_many_insertions() {
                 vde: 1,
                 degree: 3,
                 zigzag: None,
+                seed: None,
             };
 
             let params3 = proof::Params {
@@ -147,11 +158,12 @@ fn test_many_insertions() {
                     taper_layers: 2,
                     taper: 1.2,
                 }),
+                seed: None,
             };
 
-            let proof_value1 = proofs::porep_work(id.clone(), params1.clone(), seed.clone());
-            let proof_value2 = proofs::porep_work(id.clone(), params2.clone(), seed.clone());
-            let proof_value3 = proofs::porep_work(id.clone(), params3.clone(), seed.clone());
+            let proof_value1 = proofs::porep_work(id.clone(), params1.clone(), get_seed);
+            let proof_value2 = proofs::porep_work(id.clone(), params2.clone(), get_seed);
+            let proof_value3 = proofs::porep_work(id.clone(), params3.clone(), get_seed);
 
             // First params
             let old_repl_time = {
@@ -180,12 +192,7 @@ fn test_many_insertions() {
 
             // First params, same prover, but faster
             {
-                let mut response = client.get("/api/seed").dispatch();
-                assert_eq!(response.status(), Status::Ok);
-                let body = response.body_string().unwrap();
-                let seed: Seed = serde_json::from_str(&body).unwrap();
-
-                let proof_value = proofs::porep_work(id.clone(), params1, seed.clone());
+                let proof_value = proofs::porep_work(id.clone(), params1, get_seed);
                 let response = client
                     .post("/api/proof")
                     .header(ContentType::JSON)
